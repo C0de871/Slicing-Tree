@@ -20,6 +20,7 @@ public class binaryTree {
         return insert(path, value, null, null);
     }
 
+
     public boolean insert(String path, char value, Integer x, Integer y) {
         if (root == null) {
             System.out.println("The tree is empty. Set a root node first.");
@@ -31,6 +32,10 @@ public class binaryTree {
 
     private boolean insertRec(Node current, String path, int index, char value, Integer x, Integer y) {
         if (index == path.length()) {
+            return false;
+        }
+        if (Character.isLetter(current.value) && current.value != '-' && current.value != '|') {
+            System.out.println("Cannot add children to a leaf node with value: " + current.value);
             return false;
         }
 
@@ -67,6 +72,22 @@ public class binaryTree {
         }
 
         return false;
+    }
+
+    public boolean canEnterMoreNode(Node node) {
+        if (node == null) {
+            return false;
+        }
+
+        if (node.left == null && node.right == null) {
+            return !(Character.isLetter(node.value) && node.value != '-' && node.value != '|');
+        }
+
+        if (node.value == '-' || node.value == '|') {
+            return node.left == null || node.right == null || canEnterMoreNode(node.left) || canEnterMoreNode(node.right);
+        }
+
+        return canEnterMoreNode(node.left) || canEnterMoreNode(node.right);
     }
 
     public void inorder(StringBuilder result) {
