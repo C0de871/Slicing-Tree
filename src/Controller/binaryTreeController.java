@@ -50,19 +50,21 @@ public class binaryTreeController {
         char rootValue = scanner.next().charAt(0);
         Node root = new Node(rootValue);
         model.setRoot(root);
-        do {
+
+        while (model.canEnterMoreNode(root)) {
             String path = view.promptPath();
             char value = view.promptValue();
-            Integer width = view.promptX();
-            Integer height = view.promptY();
-
+            Integer width = 0, height = 0;
+            if (value != '|' && value != '-') {
+                width = view.promptX();
+                height = view.promptY();
+            }
             if (model.insert(path, value, width, height)) {
                 System.out.println("Node inserted successfully.");
             } else {
                 System.out.println("Failed to insert node.");
             }
-        } while (view.promptContinue());
+        }
+        System.out.println("All leaves are letters or invalid characters and all '-' or '|' nodes have two children. Insertion complete.");
     }
-
-
 }

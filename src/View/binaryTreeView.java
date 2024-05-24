@@ -57,12 +57,6 @@ public class binaryTreeView {
         return input.isEmpty() || input.equals("skip") ? null : Integer.parseInt(input);
     }
 
-    public boolean promptContinue() {
-        System.out.print("Do you want to add another node? (y/n): ");
-        return scanner.nextLine().trim().equalsIgnoreCase("y");
-    }
-
-
     public String RectangleCheckString() {
         System.out.print("Enter tree string to check: ");
         return scanner.nextLine().trim();
@@ -71,5 +65,19 @@ public class binaryTreeView {
     public String exploring() {
         System.out.print("Enter tree string: ");
         return scanner.nextLine().trim();
+    }
+    public int displayOptions() {
+        System.out.println("Select an option:");
+        System.out.println("1. Insert tree");
+        System.out.println("2. Build specific tree");
+        System.out.println("3. Inorder traversal");
+        System.out.println("4. Convert to paper");
+        System.out.println("5. Export tree from string");
+        System.out.println("6. Check if can form rectangle");
+        System.out.println("7. Exit");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
     }
 }
