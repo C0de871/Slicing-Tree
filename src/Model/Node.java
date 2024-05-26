@@ -4,9 +4,10 @@ public class Node {
     char value;
     Integer x, y, width, height;
     Node left, right;
+    boolean isHorizontal;
 
     public Node(char value) {
-        this(value, null, null);
+        this(value, 0, 0);
     }
 
     Node(char value, Integer width, Integer height) {
