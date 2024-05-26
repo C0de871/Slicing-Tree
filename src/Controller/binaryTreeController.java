@@ -1,26 +1,24 @@
 package Controller;
 
-import Model.binaryTree;
+import Model.BinaryTreeModel;
 import Model.Node;
 import View.binaryTreeView;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class binaryTreeController {
-    private final binaryTree model;
+    private final BinaryTreeModel model;
     private final binaryTreeView view;
 
+    String state = "home";
 
-    public binaryTreeController(binaryTree model, binaryTreeView view) {
+
+    public binaryTreeController(BinaryTreeModel model, binaryTreeView view, String state) {
         this.model = model;
         this.view = view;
+        this.state = state;
     }
 
-    public void buildSpecificTree() {
-        model.buildSpecificTree();
-        view.displayTree(model);
-    }
 
     public void displayInorder() {
         StringBuilder result = new StringBuilder();
@@ -28,43 +26,68 @@ public class binaryTreeController {
         view.displayInorder(result.toString());
     }
 
-    public void convertToPaper() {
-        ArrayList<Node> pieces = model.convertToPaper();
-        view.displayPaperPieces(pieces);
-    }
 
     public void exportTree() {
-        model.export(view.exploring());
-        view.displayTree(model);
-    }
-
-    public void canFormRectangle() {
-        String s = view.RectangleCheckString();
-        boolean result = model.canFormRectangle(s);
-        view.displayCanFormRectangle(result);
+        String formula = view.exploring();
+        if (model.canFormRectangle(formula)) {
+            model.export(formula);
+            view.displayTree(model);
+        } else {
+            view.handleErrors("Invalid formula");
+        }
     }
 
     public void insertNode() {
-        System.out.print("Enter root value: ");
-        Scanner scanner = new Scanner(System.in);
-        char rootValue = scanner.next().charAt(0);
-        Node root = new Node(rootValue);
+        view.printM("Enter root value");
+        Node root = new Node(view.getChar());
         model.setRoot(root);
+        model.insertNode();
+        view.printM("All leaves are letters or invalid characters and all '-' or '|' nodes have two children. Insertion complete.");
+    }
 
-        while (model.canEnterMoreNode(root)) {
-            String path = view.promptPath();
-            char value = view.promptValue();
-            Integer width = 0, height = 0;
-            if (value != '|' && value != '-') {
-                width = view.promptX();
-                height = view.promptY();
-            }
-            if (model.insert(path, value, width, height)) {
-                System.out.println("Node inserted successfully.");
-            } else {
-                System.out.println("Failed to insert node.");
-            }
+    public void handleUserInput() {
+        int choice = view.displayOptions();
+        switch (choice) {
+            case 1:
+                state = "insert node";
+                autoUI();
+                break;
+            case 2:
+                state = "tree to string";
+                autoUI();
+                break;
+            case 3:
+                state = "export tree";
+                autoUI();
+                break;
+            case 4:
+                state = "drawing rectangle";
+                autoUI();
+                break;
+            default:
+                System.out.println("Invalid option. Please try again.");
+                autoUI();
+                break;
         }
-        System.out.println("All leaves are letters or invalid characters and all '-' or '|' nodes have two children. Insertion complete.");
+    }
+
+    public void autoUI() {
+        switch (state) {
+            case "home":
+                handleUserInput();
+            case "insert node":
+                insertNode();
+                break;
+            case "tree to string":
+                displayInorder();
+                break;
+            case "export tree":
+                exportTree();
+                break;
+            case "drawing rectangle":
+                char[][] canvas = model.drawing(this.model.getRoot());
+                view.printCanvas(canvas);
+                break;
+        }
     }
 }

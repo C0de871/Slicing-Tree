@@ -1,14 +1,16 @@
 package Model;
 
-import java.util.ArrayList;
+import View.binaryTreeView;
+
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.Stack;
 
-public class binaryTree {
+import static View.binaryTreeView.*;
+
+public class BinaryTreeModel {
     private Node root;
 
-    public binaryTree() {
+    public BinaryTreeModel() {
         root = null;
     }
 
@@ -16,10 +18,9 @@ public class binaryTree {
         this.root = root;
     }
 
-    public boolean insert(String path, char value) {
-        return insert(path, value, null, null);
+    public Node getRoot() {
+        return root;
     }
-
 
     public boolean insert(String path, char value, Integer x, Integer y) {
         if (root == null) {
@@ -34,7 +35,7 @@ public class binaryTree {
         if (index == path.length()) {
             return false;
         }
-        if (Character.isLetter(current.value) && current.value != '-' && current.value != '|') {
+        if (Character.isLetter(current.value)  ) {
             System.out.println("Cannot add children to a leaf node with value: " + current.value);
             return false;
         }
@@ -60,17 +61,10 @@ public class binaryTree {
         }
 
         if (path.charAt(index) == 'L') {
-            if (current.left == null) {
-                current.left = new Node('-');
-            }
             return insertRec(current.left, path, index + 1, value, x, y);
         } else if (path.charAt(index) == 'R') {
-            if (current.right == null) {
-                current.right = new Node('-');
-            }
             return insertRec(current.right, path, index + 1, value, x, y);
         }
-
         return false;
     }
 
@@ -120,78 +114,46 @@ public class binaryTree {
         }
     }
 
-
-    public void buildSpecificTree() {
-        Node root = new Node('-');
-        setRoot(root);
-
-        insert("L", '|');
-        insert("R", '|');
-
-        insert("LL", 'A', 20, 10);
-        insert("LR", '|');
-
-        insert("LRL", 'B', 20, 10);
-        insert("LRR", 'C', 30, 10);
-
-        insert("RL", 'D', 30, 50);
-        insert("RR", '-');
-
-        insert("RRL", 'E', 40, 30);
-        insert("RRR", 'F', 40, 20);
-    }
-
-    public ArrayList<Node> convertToPaper() {
-        ArrayList<Node> pieces = new ArrayList<>();
-        convertToPaper(root, pieces);
-        for (Node p : pieces) {
-            System.out.println(p.value + " " + p.width + " " + p.height + " " + p.x + " " + p.y);
-        }
-        return pieces;
-    }
-
     public void export(String s) {
-        Stack<Character> brackets = new Stack<>();
+        s = s.trim();
+        s = s.replace(" ", "");
+        Stack<Character> operators = new Stack<>();
         Stack<Node> nodes = new Stack<>();
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ' ') {
+            char c = s.charAt(i);
+            if (c == '(') {
                 continue;
-            } else if (s.charAt(i) == '(') {
-                brackets.add('(');
-            } else if (s.charAt(i) == ')') {
-                brackets.pop();
+            } else if (c == ')') {
                 Node right = nodes.pop();
-                Node root = nodes.pop();
-                root.left = nodes.pop();
-                root.right = right;
-                nodes.add(root);
-
-            } else if (s.charAt(i) == '|' || s.charAt(i) == '–') {
-                nodes.push(new Node(s.charAt(i)));
-            } else {
-                char data = s.charAt(i);
-                StringBuilder sub = new StringBuilder();
-                i += 2;
-                while (s.charAt(i) != ',') {
-                    sub.append(s.charAt(i++));
-                }
+                Node left = nodes.pop();
+                char operator = operators.pop();
+                Node operatorNode = new Node(operator);
+                operatorNode.left = left;
+                operatorNode.right = right;
+                nodes.push(operatorNode);
+            } else if (c == '|' || c == '-') {
+                operators.push(c);
+            } else if (Character.isUpperCase(c)) {
                 i++;
+                StringBuilder sub = new StringBuilder();
+                while (s.charAt(++i) != ',') {
+                    sub.append(s.charAt(i));
+                }
                 int width = Integer.parseInt(sub.toString());
-                sub = new StringBuilder();
-                while (s.charAt(i) != ']') {
-                    sub.append(s.charAt(i++));
+                sub.setLength(0);
+                while (s.charAt(++i) != ']') {
+                    sub.append(s.charAt(i));
                 }
                 int height = Integer.parseInt(sub.toString());
-                nodes.add(new Node(data, width, height));
+                nodes.push(new Node(c, width, height));
             }
         }
-        Node right = nodes.pop();
-        Node root = nodes.pop();
-        root.left = nodes.pop();
-        root.right = right;
-        setRoot(root);
+        if (!nodes.isEmpty()) {
+            setRoot(nodes.pop());
+        } else {
+            throw new IllegalStateException("Parsing error, no root node found.");
+        }
     }
-
     public boolean canFormRectangle(String input) {
         Stack<Node> stack = new Stack<>();
 
@@ -205,14 +167,12 @@ public class binaryTree {
 
                 if (operator.value == '|') {
                     if (Objects.equals(left.height, right.height)) {
-                        // Assign width and height to the new node
                         Node newNode = new Node(operator.value, left.width + right.width, left.height);
                         stack.push(newNode);
                     } else {
                         return false;
                     }
                 } else if (operator.value == '-') {
-                    // Check condition 2 for '-'
                     if (Objects.equals(left.width, right.width)) {
                         Node newNode = new Node(operator.value, left.width, left.height + right.height);
                         stack.push(newNode);
@@ -239,36 +199,107 @@ public class binaryTree {
         return stack.size() == 1;
     }
 
+    public char[][] drawing(Node root) {
+        calculateDimensions(root);
 
-    private void convertToPaper(Node root, ArrayList<Node> pieces) {
-        if (root.left == null) {
+        int width = root.width + 2;
+        int height = root.height + 2;
+
+        char[][] canvas = new char[height][width];
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                canvas[i][j] = ' ';
+            }
+        }
+
+        for (int i = 0; i < width; i++) {
+            canvas[0][i] = '-';
+            canvas[height - 1][i] = '-';
+        }
+        for (int i = 0; i < height; i++) {
+            canvas[i][0] = '|';
+            canvas[i][width - 1] = '|';
+        }
+
+        drawNode(root, canvas, 1, 1, root.width, root.height);
+
+        return canvas;
+    }
+
+    private void drawNode(Node node, char[][] canvas, int startX, int startY, int width, int height) {
+        if (node == null) {
             return;
         }
-        root.left.x = root.x;
-        root.left.y = root.y;
-        root.right.x = root.x;
-        root.right.y = root.y;
-        if (root.left.value != '|' && root.left.value != '-') {
-            pieces.add(root.left);
+
+        if (node.left == null && node.right == null) {
+            int nameStartX = startX + width / 2;
+            int nameStartY = startY + height / 2;
+            if (nameStartX < canvas[0].length && nameStartY < canvas.length) {
+                canvas[nameStartY][nameStartX] = node.value;
+            }
         } else {
-            convertToPaper(root.left, pieces);//12
+            if (node.isHorizontal) {
+                int mid = startX + width / 2;
+                for (int i = startY; i < startY + height; i++) {
+                    if (i < canvas.length && mid < canvas[0].length) {
+                        canvas[i][mid] = '|';
+                    }
+                }
+                drawNode(node.left, canvas, startX, startY, mid - startX, height);
+                drawNode(node.right, canvas, mid + 1, startY, startX + width - mid - 1, height);
+            } else {
+                int mid = startY + height / 2;
+                for (int i = startX; i < startX + width; i++) {
+                    if (mid < canvas.length && i < canvas[0].length) {
+                        canvas[mid][i] = '-';
+                    }
+                }
+                drawNode(node.left, canvas, startX, startY, width, mid - startY);
+                drawNode(node.right, canvas, startX, mid + 1, width, startY + height - mid - 1);
+            }
         }
-        if (root.value == '|') {
-            root.right.x += root.left.width;
-        } else {
-            root.right.y += root.left.height;
+    }
+
+
+
+    public void calculateDimensions(Node node) {
+        if (node == null) {
+            return;
         }
-        if (root.right.value != '|' && root.right.value != '-') {
-            pieces.add(root.right);
-        } else {
-            convertToPaper(root.right, pieces);//3
+
+        if (node.left != null) {
+            calculateDimensions(node.left);
         }
-        if (root.value == '|') {
-            root.width = root.left.width + root.right.width;
-            root.height = root.left.height;
-        } else {
-            root.height = root.left.height + root.right.height;
-            root.width = root.left.width;
+
+        if (node.right != null) {
+            calculateDimensions(node.right);
+        }
+
+        if (node.value == '|') {
+            node.isHorizontal = true;
+            node.width = (node.left != null ? node.left.width : 0) + (node.right != null ? node.right.width : 0) + 1;
+            node.height = Math.max(node.left != null ? node.left.height : 0, node.right != null ? node.right.height : 0);
+        } else if (node.value == '-') {
+            node.isHorizontal = false;
+            node.width = Math.max(node.left != null ? node.left.width : 0, node.right != null ? node.right.width : 0);
+            node.height = (node.left != null ? node.left.height : 0) + (node.right != null ? node.right.height : 0) + 1;
+        }
+    }
+    public void insertNode(){
+        while ( canEnterMoreNode(root)) {
+            String path =  promptPath();
+            char value = promptValue();
+            Integer width = 0, height = 0;
+            if (value != '|' && value != '-') {
+                width = promptX();
+                height =  promptY();
+            }
+            if ( insert(path, value, width, height)) {
+                printM("Node inserted successfully.");
+            } else {
+                printM("Failed to insert node.");
+            }
         }
     }
 }
