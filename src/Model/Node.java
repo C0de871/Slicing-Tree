@@ -1,10 +1,10 @@
 package Model;
 
 public class Node {
-    char value;
-    Integer x, y, width, height;
-    Node left, right;
-    boolean isHorizontal;
+    private char value;
+    private Integer width, height;
+    private Node left, right;
+    private boolean isHorizontal;
 
     public Node(char value) {
         this(value, 0, 0);
@@ -16,6 +16,7 @@ public class Node {
         this.width = width;
         left = right = null;
     }
+
     boolean isLeaf() {
         return left == null && right == null;
     }
@@ -26,22 +27,6 @@ public class Node {
 
     public void setValue(char value) {
         this.value = value;
-    }
-
-    public Integer getX() {
-        return x;
-    }
-
-    public void setX(Integer x) {
-        this.x = x;
-    }
-
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
     }
 
     public Integer getWidth() {
@@ -74,5 +59,13 @@ public class Node {
 
     public void setRight(Node right) {
         this.right = right;
+    }
+
+    public void setHorizontal(boolean horizontal) {
+        isHorizontal = horizontal;
+    }
+
+    public boolean isHorizontal() {
+        return isHorizontal;
     }
 }
