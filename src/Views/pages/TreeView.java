@@ -9,7 +9,7 @@ import Controller.FontController;
 import Views.Components.TextFieldNode;
 import button.Button;
 
-public class TreeToRectangleView extends JPanel {
+public class TreeView extends JPanel {
 
     // components:
     Button convertButton;
@@ -17,7 +17,7 @@ public class TreeToRectangleView extends JPanel {
     public static TextFieldNode textRoot;
 
     // constructor:
-    public TreeToRectangleView() {
+    public TreeView() {
         this.setBackground(ColorController.MainMenuColor);
         this.setLayout(null);
 

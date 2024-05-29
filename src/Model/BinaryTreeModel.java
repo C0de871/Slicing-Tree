@@ -23,71 +23,23 @@ public class BinaryTreeModel {
         return root;
     }
 
-    public boolean insert(String path, char value, Integer x, Integer y) {
-        if (root == null) {
-            System.out.println("The tree is empty. Set a root node first.");
-            return false;
-        } else {
-            return insertRec(root, path, 0, value, x, y);
-        }
-    }
-
-    //function to insert nodes to the tree
-    private boolean insertRec(Node current, String path, int index, char value, Integer x, Integer y) {
-        if (index == path.length()) {
-            return false;
-        }
-        if (Character.isLetter(current.getValue())) {
-            System.out.println("Cannot add children to a leaf node with value: " + current.getValue());
-            return false;
-        }
-
-        if (index == path.length() - 1) {
-            if (path.charAt(index) == 'L') {
-                if (current.getLeft() == null) {
-                    current.setLeft(new Node(value, x, y));
-                    return true;
-                } else {
-                    System.out.println("Left child already exists at path: " + path);
-                    return false;
-                }
-            } else if (path.charAt(index) == 'R') {
-                if (current.getRight() == null) {
-                    current.setRight(new Node(value, x, y));
-                    return true;
-                } else {
-                    System.out.println("Right child already exists at path: " + path);
-                    return false;
-                }
+    // function to check if the user can input a more nodes or not
+    public boolean isComplete(Node node) {
+        if (Character.isLetter(node.getValue())) {
+            return true;
+        }else{
+            if (node.getLeft() == null) {
+             return false;
+            }
+            if (node.getRight() == null) {
+                return false;
             }
         }
-
-        if (path.charAt(index) == 'L') {
-            return insertRec(current.getLeft(), path, index + 1, value, x, y);
-        } else if (path.charAt(index) == 'R') {
-            return insertRec(current.getRight(), path, index + 1, value, x, y);
-        }
-        return false;
+      return (isComplete(node.getLeft())&&(isComplete(node.getRight())));
+      
     }
 
-    //function to check if the user can input a more nodes or not
-    public boolean canEnterMoreNode(Node node) {
-        if (node == null) {
-            return false;
-        }
-
-        if (node.getLeft() == null && node.getRight() == null) {
-            return !(Character.isLetter(node.getValue()));
-        }
-
-        if (node.getValue() == '-' || node.getValue() == '|') {
-            return node.getLeft() == null || node.getRight() == null || canEnterMoreNode(node.getLeft()) || canEnterMoreNode(node.getRight());
-        }
-
-        return canEnterMoreNode(node.getLeft()) || canEnterMoreNode(node.getRight());
-    }
-
-    //function to convert from tree to a string formula
+    // function to convert from tree to a string formula
     public void inorder(StringBuilder result) {
         inorderRec(root, result, true);
     }
@@ -118,7 +70,7 @@ public class BinaryTreeModel {
         }
     }
 
-    //function to convert from string to a tree
+    // function to convert from string to a tree
     public void export(String s) {
         s = s.trim();
         s = s.replace(" ", "");
@@ -160,7 +112,7 @@ public class BinaryTreeModel {
         }
     }
 
-    //function to check if the Entered string can form a rectangle or not
+    // function to check if the Entered string can form a rectangle or not
     public boolean canFormRectangle(String input) {
         Stack<Node> stack = new Stack<>();
 
@@ -174,14 +126,16 @@ public class BinaryTreeModel {
 
                 if (operator.getValue() == '|') {
                     if (Objects.equals(left.getHeight(), right.getHeight())) {
-                        Node newNode = new Node(operator.getValue(), left.getWidth() + right.getWidth(), left.getHeight());
+                        Node newNode = new Node(operator.getValue(), left.getWidth() + right.getWidth(),
+                                left.getHeight());
                         stack.push(newNode);
                     } else {
                         return false;
                     }
                 } else if (operator.getValue() == '-') {
                     if (Objects.equals(left.getWidth(), right.getWidth())) {
-                        Node newNode = new Node(operator.getValue(), left.getWidth(), left.getHeight() + right.getHeight());
+                        Node newNode = new Node(operator.getValue(), left.getWidth(),
+                                left.getHeight() + right.getHeight());
                         stack.push(newNode);
                     } else {
                         return false;
@@ -205,7 +159,7 @@ public class BinaryTreeModel {
         return stack.size() == 1;
     }
 
-    //function to draw a rectangle
+    // function to draw a rectangle
     public char[][] drawing(Node root) {
         calculateDimensions(root);
         System.out.println(root.getWidth() + " " + root.getHeight());
@@ -266,7 +220,8 @@ public class BinaryTreeModel {
         }
     }
 
-    //function to get the height and the width of the whole rectangle and store them in the root
+    // function to get the height and the width of the whole rectangle and store
+    // them in the root
     public void calculateDimensions(Node node) {
         if (node == null) {
             return;
@@ -282,16 +237,20 @@ public class BinaryTreeModel {
 
         if (node.getValue() == '|') {
             node.setHorizontal(true);
-            node.setWidth((node.getLeft() != null ? node.getLeft().getWidth() : 0) + (node.getRight() != null ? node.getRight().getWidth() : 0) + 1);
-            node.setHeight(Math.max(node.getLeft() != null ? node.getLeft().getHeight() : 0, node.getRight() != null ? node.getRight().getHeight() : 0));
+            node.setWidth((node.getLeft() != null ? node.getLeft().getWidth() : 0)
+                    + (node.getRight() != null ? node.getRight().getWidth() : 0) + 1);
+            node.setHeight(Math.max(node.getLeft() != null ? node.getLeft().getHeight() : 0,
+                    node.getRight() != null ? node.getRight().getHeight() : 0));
         } else if (node.getValue() == '-') {
             node.setHorizontal(false);
-            node.setWidth(Math.max(node.getLeft() != null ? node.getLeft().getWidth() : 0, node.getRight() != null ? node.getRight().getWidth() : 0));
-            node.setHeight((node.getLeft() != null ? node.getLeft().getHeight() : 0) + (node.getRight() != null ? node.getRight().getHeight() : 0) + 1);
+            node.setWidth(Math.max(node.getLeft() != null ? node.getLeft().getWidth() : 0,
+                    node.getRight() != null ? node.getRight().getWidth() : 0));
+            node.setHeight((node.getLeft() != null ? node.getLeft().getHeight() : 0)
+                    + (node.getRight() != null ? node.getRight().getHeight() : 0) + 1);
         }
     }
 
-    //function to Rotate the rectangle
+    // function to Rotate the rectangle
     public char[][] transposeMatrix(char[][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
@@ -312,7 +271,7 @@ public class BinaryTreeModel {
         return rotated;
     }
 
-    //function to Read a rectangle from a file
+    // function to Read a rectangle from a file
     public char[][] read2DArrayFromFile(String filePath) throws IOException {
         List<char[]> lines = new ArrayList<>();
         int maxWidth = 0;
@@ -335,7 +294,7 @@ public class BinaryTreeModel {
         return canvas;
     }
 
-    //function to get the height of the tree
+    // function to get the height of the tree
     public int treeHeight(Node root) {
         if (root == null) {
             return 0;

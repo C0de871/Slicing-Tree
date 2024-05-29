@@ -11,14 +11,14 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 import Controller.ColorController;
 import Controller.FontController;
-import Views.pages.TreeToRectangleView;
+import Views.pages.TreeView;
 import textfield.TextField;
 
 public class TextFieldNode extends TextField {
 
     // init components:
-    TextFieldNode leftNode = null;
-    TextFieldNode rightNode = null;
+    public TextFieldNode leftNode = null;
+    public TextFieldNode rightNode = null;
     AnimationMethods animatedEdgePanel;
     int branchValue;
     int startX;
@@ -35,7 +35,7 @@ public class TextFieldNode extends TextField {
         this.setDisabledTextColor(ColorController.selectButtonColor);
         this.setHorizontalAlignment(JTextField.CENTER);
         this.setFont(FontController.orderLabelFont);
-        this.setText("Null");
+        this.setText("null");
 
         //init important valuse:
         this.branchValue = branchValue;
@@ -90,7 +90,7 @@ public class TextFieldNode extends TextField {
 
     //adjust and add new children:
     private void getAnimator(TextFieldNode curTextFieldNode, Container curContainer) {
-        TreeToRectangleView.textRoot.autoAdjust(0);
+        TreeView.textRoot.autoAdjust(0);
         Timer t= new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
