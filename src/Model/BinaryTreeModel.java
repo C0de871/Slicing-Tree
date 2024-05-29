@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
-import static View.binaryTreeView.*;
-
 public class BinaryTreeModel {
     private Node root;
 
@@ -289,23 +287,6 @@ public class BinaryTreeModel {
             node.setHorizontal(false);
             node.setWidth(Math.max(node.getLeft() != null ? node.getLeft().getWidth() : 0, node.getRight() != null ? node.getRight().getWidth() : 0));
             node.setHeight((node.getLeft() != null ? node.getLeft().getHeight() : 0) + (node.getRight() != null ? node.getRight().getHeight() : 0) + 1);
-        }
-    }
-
-    public void insertNode() {
-        while (canEnterMoreNode(root)) {
-            String path = promptPath();
-            char value = promptValue();
-            Integer width = 0, height = 0;
-            if (value != '|' && value != '-') {
-                width = promptX();
-                height = promptY();
-            }
-            if (insert(path, value, width, height)) {
-                printM("Node inserted successfully.");
-            } else {
-                printM("Failed to insert node.");
-            }
         }
     }
 
