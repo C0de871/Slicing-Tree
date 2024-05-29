@@ -6,7 +6,7 @@ import Controller.MainController;
 import Views.pages.LeavesCheckView;
 import Views.pages.MainMenuView;
 import Views.pages.TextToTreeView;
-import Views.pages.TreeToRectangleView;
+import Views.pages.TreeView;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +14,7 @@ public class Main {
         SwingUtilities.invokeLater(()-> {
             BinaryTreeModel model = new BinaryTreeModel();
             MainMenuView mainMenuPanel =new MainMenuView();
-            TreeToRectangleView treeToRectangleView = new TreeToRectangleView();
+            TreeView treeToRectangleView = new TreeView();
             TextToTreeView textToTreeView =new TextToTreeView();
             LeavesCheckView leavesCheckView = new LeavesCheckView();
             new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView,leavesCheckView);

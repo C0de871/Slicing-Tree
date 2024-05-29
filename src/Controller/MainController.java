@@ -8,7 +8,7 @@ import Model.BinaryTreeModel;
 import Views.pages.LeavesCheckView;
 import Views.pages.MainMenuView;
 import Views.pages.TextToTreeView;
-import Views.pages.TreeToRectangleView;
+import Views.pages.TreeView;
 
 public class MainController {
     //declare the components:
@@ -27,7 +27,7 @@ public class MainController {
     private LeavesCheckView leavesCheckView;
 
     //constructor:
-    public MainController(BinaryTreeModel model, MainMenuView mainMenuPanel, TreeToRectangleView treeToRectangleView, TextToTreeView stringToTreeView, LeavesCheckView leavesCheckView) {
+    public MainController(BinaryTreeModel model, MainMenuView mainMenuPanel, TreeView treeToRectangleView, TextToTreeView stringToTreeView, LeavesCheckView leavesCheckView) {
 
         //init components:
         this.frame = new JFrame("Slicing Tree");
