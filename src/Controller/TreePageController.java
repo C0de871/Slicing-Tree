@@ -33,7 +33,7 @@ public class TreePageController {
         }
         node= new Node(TreeView.textRoot.getText().charAt(0));
         treeBuilder(node, TreeView.textRoot);
-        // model.convertToPaper();
+        model.convertToPaper();
 
     }
 
