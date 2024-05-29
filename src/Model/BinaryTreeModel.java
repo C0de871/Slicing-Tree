@@ -39,26 +39,22 @@ public class BinaryTreeModel {
 
     }
 
-    // function to convert from tree to a string formula
-    public void inorder(StringBuilder result) {
-        inorderRec(root, result, true);
-    }
-
-    private void inorderRec(Node root, StringBuilder result, boolean isRoot) {
-        if (root != null) {
-            boolean needParentheses = root.getLeft() != null || root.getRight() != null;
+    public void inorderRec(Node node, StringBuilder result, boolean isRoot) {
+        if (node != null) {
+            boolean needParentheses = node.getLeft() != null || node.getRight() != null;
             if (needParentheses && isRoot) {
                 result.append("(");
             }
             if (needParentheses && !isRoot) {
                 result.append("(");
             }
-            inorderRec(root.getLeft(), result, false);
-            result.append(root.getValue());
-            if (root.getWidth() != null && root.getHeight() != null) {
-                result.append("[").append(root.getWidth()).append(",").append(root.getHeight()).append("]");
+            inorderRec(node.getLeft(), result, false);
+            result.append(node.getValue());
+            if (node.getWidth() != null && node.getHeight() != null && node.getValue() != '-'
+                    && node.getValue() != '|') {
+                result.append("[").append(node.getWidth()).append(",").append(node.getHeight()).append("]");
             }
-            inorderRec(root.getRight(), result, false);
+            inorderRec(node.getRight(), result, false);
 
             if (needParentheses && !isRoot) {
                 result.append(")");
@@ -107,9 +103,7 @@ public class BinaryTreeModel {
         }
         if (!nodes.isEmpty()) {
             setRoot(nodes.pop());
-        } else {
-            throw new IllegalStateException("Parsing error, no root node found.");
-        }
+        } 
     }
 
     // function to check if the Entered string can form a rectangle or not
@@ -307,8 +301,13 @@ public class BinaryTreeModel {
 
     public ArrayList<Node> convertToPaper() {
         ArrayList<Node> pieces = new ArrayList<>();
-        if (!isComplete(this.root)) return null;
-        convertToPaper(root, pieces);
+        if (!isComplete(this.root))
+            return null;
+        StringBuilder result = new StringBuilder();
+        inorderRec(this.root, result, true);
+        if (canFormRectangle(result.toString())) {
+            convertToPaper(root, pieces);
+        }
         return pieces;
     }
 
@@ -323,17 +322,18 @@ public class BinaryTreeModel {
         if (root.getLeft().getValue() != '|' && root.getLeft().getValue() != '-') {
             pieces.add(root.getLeft());
         } else {
-            convertToPaper(root.getLeft(), pieces);//12
+            convertToPaper(root.getLeft(), pieces);// 12
         }
         if (root.getValue() == '|') {
-            root.getRight().setX(root.getRight().getX() + root.getLeft().getWidth());//        if (root.data.equals("|")) {root.right.x+=root.left.width;
+            root.getRight().setX(root.getRight().getX() + root.getLeft().getWidth());// if (root.data.equals("|"))
+                                                                                     // {root.right.x+=root.left.width;
         } else {
             root.getRight().setY(root.getRight().getY() + root.getLeft().getHeight());
         }
         if (root.getRight().getValue() != '|' && root.getRight().getValue() != '-') {
             pieces.add(root.getRight());
         } else {
-            convertToPaper(root.getRight(), pieces);//3
+            convertToPaper(root.getRight(), pieces);// 3
         }
         if (root.getValue() == '|') {
             root.setWidth(root.getLeft().getWidth() + root.getRight().getWidth());

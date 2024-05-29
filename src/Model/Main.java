@@ -11,19 +11,18 @@ import Views.pages.TreeView;
 public class Main {
     public static void main(String[] args) {
 
-      /*  SwingUtilities.invokeLater(()-> {
+        SwingUtilities.invokeLater(() -> {
             BinaryTreeModel model = new BinaryTreeModel();
-            MainMenuView mainMenuPanel =new MainMenuView();
+            MainMenuView mainMenuPanel = new MainMenuView();
             TreeView treeToRectangleView = new TreeView();
-            TextToTreeView textToTreeView =new TextToTreeView();
+            TextToTreeView textToTreeView = new TextToTreeView();
             LeavesCheckView leavesCheckView = new LeavesCheckView();
-            new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView,leavesCheckView);
-        });*/
-        BinaryTreeModel tree=new BinaryTreeModel();
-        tree.export("((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))");
-        Paper p = new Paper(tree.convertToPaper());
-
+            new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView, leavesCheckView);
+        });
+        // BinaryTreeModel tree=new BinaryTreeModel();
+        // tree.export("((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))");
+        // Paper p = new Paper(tree.convertToPaper());
     }
 }
 //((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))
-//
+//((A[20,10]|(B[20,10]|C[30,10]))-(D[30,50]|(E[40,30]-F[40,20])))
