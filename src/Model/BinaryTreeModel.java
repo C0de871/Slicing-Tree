@@ -27,16 +27,16 @@ public class BinaryTreeModel {
     public boolean isComplete(Node node) {
         if (Character.isLetter(node.getValue())) {
             return true;
-        }else{
+        } else {
             if (node.getLeft() == null) {
-             return false;
+                return false;
             }
             if (node.getRight() == null) {
                 return false;
             }
         }
-      return (isComplete(node.getLeft())&&(isComplete(node.getRight())));
-      
+        return (isComplete(node.getLeft()) && (isComplete(node.getRight())));
+
     }
 
     // function to convert from tree to a string formula
@@ -307,6 +307,7 @@ public class BinaryTreeModel {
 
     public ArrayList<Node> convertToPaper() {
         ArrayList<Node> pieces = new ArrayList<>();
+        if (!isComplete(this.root)) return null;
         convertToPaper(root, pieces);
         return pieces;
     }
