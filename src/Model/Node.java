@@ -2,7 +2,7 @@ package Model;
 
 public class Node {
     private char value;
-    private Integer width, height;
+    private Integer width, height,x,y;
     private Node left, right;
     private boolean isHorizontal;
 
@@ -14,6 +14,8 @@ public class Node {
         this.value = value;
         this.height = height;
         this.width = width;
+        this.x=0;
+        this.y=0;
         left = right = null;
     }
 
@@ -67,5 +69,21 @@ public class Node {
 
     public boolean isHorizontal() {
         return isHorizontal;
+    }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
     }
 }
