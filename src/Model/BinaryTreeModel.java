@@ -231,6 +231,7 @@ public class BinaryTreeModel {
         drawNode(root, canvas, 1, 1, root.getWidth(), root.getHeight());
         return canvas;
     }
+
     private void drawNode(Node node, char[][] canvas, int startX, int startY, int width, int height) {
         if (node == null) {
             return;
@@ -344,4 +345,43 @@ public class BinaryTreeModel {
             return Math.max(leftHeight, rightHeight) + 1;
         }
     }
+
+    public ArrayList<Node> convertToPaper() {
+        ArrayList<Node> pieces = new ArrayList<>();
+        convertToPaper(root, pieces);
+        return pieces;
+    }
+
+    private void convertToPaper(Node root, ArrayList<Node> pieces) {
+        if (root.getLeft() == null) {
+            return;
+        }
+        root.getLeft().setX(root.getX());
+        root.getLeft().setY(root.getY());
+        root.getRight().setX(root.getX());
+        root.getRight().setY(root.getY());
+        if (root.getLeft().getValue() != '|' && root.getLeft().getValue() != '-') {
+            pieces.add(root.getLeft());
+        } else {
+            convertToPaper(root.getLeft(), pieces);//12
+        }
+        if (root.getValue() == '|') {
+            root.getRight().setX(root.getRight().getX() + root.getLeft().getWidth());//        if (root.data.equals("|")) {root.right.x+=root.left.width;
+        } else {
+            root.getRight().setY(root.getRight().getY() + root.getLeft().getHeight());
+        }
+        if (root.getRight().getValue() != '|' && root.getRight().getValue() != '-') {
+            pieces.add(root.getRight());
+        } else {
+            convertToPaper(root.getRight(), pieces);//3
+        }
+        if (root.getValue() == '|') {
+            root.setWidth(root.getLeft().getWidth() + root.getRight().getWidth());
+            root.setHeight(root.getLeft().getHeight());
+        } else {
+            root.setHeight(root.getLeft().getHeight() + root.getRight().getHeight());
+            root.setWidth(root.getLeft().getWidth());
+        }
+    }
+
 }

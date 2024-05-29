@@ -49,8 +49,7 @@ public class RippleEffect {
     public void reder(Graphics g, Shape contain) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        for (int i = 0; i < effects.size(); i++) {
-            Effect effect = effects.get(i);
+        for (Effect effect : effects) {
             if (effect != null) {
                 effect.render(g2, contain);
             }
@@ -105,8 +104,7 @@ public class RippleEffect {
             double s = size * animate;
             double x = location.getX();
             double y = location.getY();
-            Shape shape = new Ellipse2D.Double(x - s, y - s, s * 2, s * 2);
-            return shape;
+            return new Ellipse2D.Double(x - s, y - s, s * 2, s * 2);
         }
 
         private double getSize(Rectangle2D rec) {
