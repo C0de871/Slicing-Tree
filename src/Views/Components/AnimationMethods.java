@@ -207,7 +207,3 @@ public class AnimationMethods implements ActionListener {
         return rightChild;
     }
 }
-
-interface AnimationCompleteListener {
-    void onAnimationComplete();
-}

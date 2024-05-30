@@ -6,10 +6,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicTextFieldUI;
-
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
+
 import Views.Components.ViewNode;
 import swing.shadow.ShadowRenderer;
 

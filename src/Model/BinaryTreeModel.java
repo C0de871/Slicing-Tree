@@ -1,7 +1,9 @@
 package Model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,11 @@ import java.util.Stack;
 
 public class BinaryTreeModel {
     private Node root;
+    private int maxLevel=0;
+
+    public int getMaxLevel() {
+        return maxLevel;
+    }
 
     public BinaryTreeModel() {
         root = null;
@@ -25,15 +32,9 @@ public class BinaryTreeModel {
 
     // function to check if the user can input a more nodes or not
     public boolean isComplete(Node node) {
+        if(node==null)return false;
         if (Character.isLetter(node.getValue())) {
             return true;
-        } else {
-            if (node.getLeft() == null) {
-                return false;
-            }
-            if (node.getRight() == null) {
-                return false;
-            }
         }
         return (isComplete(node.getLeft()) && (isComplete(node.getRight())));
 
@@ -288,17 +289,6 @@ public class BinaryTreeModel {
         return canvas;
     }
 
-    // function to get the height of the tree
-    public int treeHeight(Node root) {
-        if (root == null) {
-            return 0;
-        } else {
-            int leftHeight = treeHeight(root.getLeft());
-            int rightHeight = treeHeight(root.getRight());
-            return Math.max(leftHeight, rightHeight) + 1;
-        }
-    }
-
     public ArrayList<Node> convertToPaper() {
         ArrayList<Node> pieces = new ArrayList<>();
         if (!isComplete(this.root))
@@ -344,4 +334,26 @@ public class BinaryTreeModel {
         }
     }
 
+    //calculate the maximum level in the tree:
+    public void calcMaxLevel(int curLevel,Node curNode){
+        maxLevel=Math.max(curLevel, maxLevel);
+        if(curNode.getValue()=='|'||curNode.getValue()=='-'){
+            calcMaxLevel(curLevel+1,curNode.getLeft());
+            calcMaxLevel(curLevel+1,curNode.getRight());
+        }
+    }
+
+     //function that I give it the array and the filePath which I want to write the array on it
+    public  void print2DArrayToFile(char[][] array, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (char[] row : array) {
+                for (char ch : row) {
+                    writer.write(ch);
+                }
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

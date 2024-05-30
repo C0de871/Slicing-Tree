@@ -3,7 +3,11 @@ package Views.Components;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import org.jdesktop.animation.timing.Animator;
@@ -12,6 +16,7 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import Controller.ColorController;
 import Controller.FontController;
 import Views.pages.TreeView;
+import javaswingdev.Notification.Type;
 import textfield.TextField;
 
 public class TextFieldNode extends TextField {
@@ -23,6 +28,8 @@ public class TextFieldNode extends TextField {
     int branchValue;
     int startX;
     int endX;
+    public int recWidth;
+    public int recHeight;
 
     // constructor:
     public TextFieldNode(int x, int y, int width, int height, int branchValue) {
@@ -52,7 +59,7 @@ public class TextFieldNode extends TextField {
     }
 
     //add new children:
-    private void addNewChildren(TextFieldNode curTextFieldNode, Container curContainer) {
+    public AnimationMethods addNewChildren(TextFieldNode curTextFieldNode, Container curContainer) {
         leftNode = createLeftNode(curTextFieldNode.getX()+(curTextFieldNode.getWidth()/2), curTextFieldNode.getMidY(), curTextFieldNode.branchValue);
         rightNode = createRightNode(curTextFieldNode.getX()+(curTextFieldNode.getWidth()/2), curTextFieldNode.getMidY(), curTextFieldNode.branchValue);
         animatedEdgePanel = new AnimationMethods(curTextFieldNode, leftNode, rightNode, curContainer);
@@ -62,6 +69,7 @@ public class TextFieldNode extends TextField {
                 System.out.println("Done");
             }
         });
+        return animatedEdgePanel;
     }
 
     //check if the tree need adjustment:
@@ -82,10 +90,40 @@ public class TextFieldNode extends TextField {
         if (text.equals("-") || text.equals("|")) {
             checkForAdjust(curTextFieldNode, curContainer);
         } else if (text.matches("[A-Z]")) {
-            curTextFieldNode.setEnabled(false);
+            if(checkData()){
+                curTextFieldNode.setEnabled(false);
+            }else{
+                StaticMethods.showMassage("invalid Input try again!", (JFrame) SwingUtilities.getWindowAncestor(this), Type.INFO);
+            }
         } else {
             curTextFieldNode.setText("");
         }
+    }
+
+    //check if the data is valid:
+    private boolean checkData() {
+        String input = JOptionPane.showInputDialog(this.getParent(), "Enter the Width:");
+        if(input==null||!isNumeric(input)){
+            return false;
+        }
+        recWidth=Integer.parseInt(input);
+        if(recWidth==0){
+            return false;
+        }
+        input = JOptionPane.showInputDialog(this.getParent(), "Enter the Height:");
+        if(input==null||!isNumeric(input)){
+            return false;
+        }
+        recHeight=Integer.parseInt(input);
+        if(recHeight==0){
+            return false;
+        }
+        return true;
+    }
+
+    //check if numeric
+    private static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
 
     //adjust and add new children:

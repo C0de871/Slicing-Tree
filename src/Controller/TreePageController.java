@@ -1,71 +1,109 @@
 package Controller;
 
 import java.awt.CardLayout;
+import java.awt.ScrollPane;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import Model.BinaryTreeModel;
 import Model.Node;
+import Views.Components.StaticMethods;
 import Views.Components.TextFieldNode;
+import Views.pages.RectangleView;
+import Views.pages.TextView;
 import Views.pages.TreeView;
+import javaswingdev.Notification.Type;
 
 public class TreePageController {
 
     // declare the components:
-    @SuppressWarnings("unused")
     private BinaryTreeModel model;
-    private TreeView treeToRectangleView;
+    private TreeView treeView;
+    private RectangleView rectangleView;
+    private TextView textView;
     JFrame frame;
 
     // constructor:
-    public TreePageController(BinaryTreeModel model, TreeView treeToRectangleView, JFrame frame) {
+    public TreePageController(BinaryTreeModel model, TreeView treeView, RectangleView rectangleView, TextView textView,
+            JFrame frame) {
         this.frame = frame;
         this.model = model;
-        this.treeToRectangleView = treeToRectangleView;
-        treeToRectangleView.addBackButtonActionListener(e -> backToMainMenu());
-        treeToRectangleView.addConvertButtonActionLIstener(e -> convertToNewForm());
+        this.treeView = treeView;
+        this.textView = textView;
+        this.rectangleView = rectangleView;
+        treeView.addBackButtonActionListener(e -> backToMainMenu());
+        treeView.convertersActionListener(e -> treeToRectangle(), e -> treeToText());
     }
 
-    private void convertToNewForm() {
+    private void treeToText() {
+        textView.setText("");
+        StringBuilder response = new StringBuilder();
+        initRoot();
+        model.inorderRec(model.getRoot(), response, true);
+        textView.setText(response.toString());
+        StaticMethods.showMassage("Successfuly convert the tree to String", frame, Type.SUCCESS);
+        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Text");
+    }
+
+    // convert to paper and String:
+    private void treeToRectangle() {
+        StaticMethods.resetPanel(rectangleView);
         if (TreeView.textRoot.getText().equals("null")) {
-            System.out.println("There is no root");
+            StaticMethods.showMassage("There is no Root yet", frame, Type.INFO);
             return;
         }
-        model.setRoot(new Node(TreeView.textRoot.getText().charAt(0)));
-        treeBuilder(model.getRoot(), TreeView.textRoot);
+        initRoot();
         ArrayList<Node> response = model.convertToPaper();
         if (response == null) {
-            System.out.println("isn't completed");
+            StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
         } else if (response.isEmpty()) {
-            System.out.println("can't form full rectangle!");
+            StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
         } else {
-            System.out.println("thx kareem");
-            StringBuilder response1 = new StringBuilder();
-            model.inorderRec(model.getRoot(), response1, true);
-            System.out.println(response1);
+            char[][] rec=model.drawing(model.getRoot());
+            model.print2DArrayToFile(rec, "D:\\Projects\\Second Year Project\\Slicing Tree\\output.txt");
+            StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
+            rectangleView.addRectangles(response);
+            ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
         }
 
     }
 
-    private void backToMainMenu() {
-        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
+    private void initRoot() {
+        model.setRoot(new Node(TreeView.textRoot.getText().charAt(0)));
+        model.getRoot().setWidth(TreeView.textRoot.recWidth);
+        model.getRoot().setHeight(TreeView.textRoot.recHeight);
+        treeBuilder(model.getRoot(), TreeView.textRoot);
     }
 
+    // back to main menu:
+    private void backToMainMenu() {
+        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
+        StaticMethods.resetPanel(treeView);
+        TreeView.resetRoot();
+        treeView.add(TreeView.textRoot);
+    }
+
+    // convert Buttons Tree to Node tree:
     private void treeBuilder(Node node, TextFieldNode textFieldNode) {
-        if (textFieldNode.leftNode == null)
+        if (textFieldNode.leftNode == null) {
             return;
+        }
         String leftValue = textFieldNode.leftNode.getText();
         if (!(leftValue.equals("null"))) {
             Node leftNode = new Node(leftValue.charAt(0));
+            leftNode.setHeight(textFieldNode.leftNode.recHeight);
+            leftNode.setWidth(textFieldNode.leftNode.recWidth);
             node.setLeft(leftNode);
             treeBuilder(leftNode, textFieldNode.leftNode);
         }
         String rightValue = textFieldNode.rightNode.getText();
         if (!(rightValue.equals("null"))) {
-            Node righNode = new Node(rightValue.charAt(0));
-            node.setRight(righNode);
-            treeBuilder(righNode, textFieldNode.rightNode);
+            Node rightNode = new Node(rightValue.charAt(0));
+            rightNode.setHeight(textFieldNode.rightNode.recHeight);
+            rightNode.setWidth(textFieldNode.rightNode.recWidth);
+            node.setRight(rightNode);
+            treeBuilder(rightNode, textFieldNode.rightNode);
         }
         return;
 
