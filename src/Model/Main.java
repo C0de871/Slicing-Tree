@@ -5,7 +5,8 @@ import javax.swing.SwingUtilities;
 import Controller.MainController;
 import Views.pages.LeavesCheckView;
 import Views.pages.MainMenuView;
-import Views.pages.TextToTreeView;
+import Views.pages.RectangleView;
+import Views.pages.TextView;
 import Views.pages.TreeView;
 
 public class Main {
@@ -15,13 +16,11 @@ public class Main {
             BinaryTreeModel model = new BinaryTreeModel();
             MainMenuView mainMenuPanel = new MainMenuView();
             TreeView treeToRectangleView = new TreeView();
-            TextToTreeView textToTreeView = new TextToTreeView();
+            TextView textToTreeView = new TextView();
+            RectangleView rectangleView = new RectangleView();
             LeavesCheckView leavesCheckView = new LeavesCheckView();
-            new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView, leavesCheckView);
+            new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView, leavesCheckView,rectangleView);
         });
-        // BinaryTreeModel tree=new BinaryTreeModel();
-        // tree.export("((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))");
-        // Paper p = new Paper(tree.convertToPaper());
     }
 }
 //((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))

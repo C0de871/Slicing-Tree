@@ -312,4 +312,5 @@ public class Notification extends javax.swing.JComponent {
     private javax.swing.JLabel lbMessageText;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
+
 }
