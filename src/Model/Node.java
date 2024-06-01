@@ -3,7 +3,16 @@ package Model;
 public class Node {
     private char value;
     private Integer width, height,x,y;
-    private Node left, right;
+    private Node left, right,Parent;
+
+    public Node getParent() {
+        return Parent;
+    }
+
+    public void setParent(Node parent) {
+        Parent = parent;
+    }
+
     private boolean isHorizontal;
 
     public Node(char value) {
@@ -17,6 +26,22 @@ public class Node {
         this.x=0;
         this.y=0;
         left = right = null;
+        isHorizontal=false;
+    }
+
+    Node(char value, int width, int height, boolean horizontal) {
+        this.value = value;
+        this.width = width;
+        this.height = height;
+        this.isHorizontal = horizontal;
+        this.left = null;
+        this.right = null;
+    }
+    public Node(char value, boolean isHorizontal, int width, int height) {
+        this.value = value;
+        this.isHorizontal = isHorizontal;
+        this.width = width;
+        this.height = height;
     }
 
     boolean isLeaf() {

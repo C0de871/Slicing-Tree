@@ -9,8 +9,6 @@ public class Paper extends JFrame {
     public Paper(ArrayList<Node> pieces){
         setTitle("Paper");
         Border border=BorderFactory.createLineBorder(new Color(0x01B1717),2);
-        //ImageIcon icon=new ImageIcon("C:\\Users\\Dell\\IdeaProjects\\CinemaInterfaces\\recources\\Paying-icon.png");
-        //setIconImage(icon.getImage());
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setResizable(true);
         setSize(1500,1000);
