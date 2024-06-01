@@ -5,14 +5,11 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreeModel {
     private Node root;
-    private int maxLevel=0;
+    private int maxLevel = 0;
 
     public int getMaxLevel() {
         return maxLevel;
@@ -32,7 +29,7 @@ public class BinaryTreeModel {
 
     // function to check if the user can input a more nodes or not
     public boolean isComplete(Node node) {
-        if(node==null)return false;
+        if (node == null) return false;
         if (Character.isLetter(node.getValue())) {
             return true;
         }
@@ -104,7 +101,7 @@ public class BinaryTreeModel {
         }
         if (!nodes.isEmpty()) {
             setRoot(nodes.pop());
-        } 
+        }
     }
 
     // function to check if the Entered string can form a rectangle or not
@@ -154,21 +151,18 @@ public class BinaryTreeModel {
         return stack.size() == 1;
     }
 
-    // function to draw a rectangle
+    // function to draw a rectangle from a tree
+
     public char[][] drawing(Node root) {
         calculateDimensions(root);
-        System.out.println(root.getWidth() + " " + root.getHeight());
-        int width = root.getWidth() + 2;
-        int height = root.getHeight() + 2;
-
+        int width = root.getWidth();
+        int height = root.getHeight();
         char[][] canvas = new char[height][width];
-
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 canvas[i][j] = ' ';
             }
         }
-
         for (int i = 0; i < width; i++) {
             canvas[0][i] = '-';
             canvas[height - 1][i] = '-';
@@ -177,43 +171,65 @@ public class BinaryTreeModel {
             canvas[i][0] = '|';
             canvas[i][width - 1] = '|';
         }
-        drawNode(root, canvas, 1, 1, root.getWidth(), root.getHeight());
+        convertToPaper(root, canvas);
         return canvas;
     }
 
-    private void drawNode(Node node, char[][] canvas, int startX, int startY, int width, int height) {
-        if (node == null) {
+
+    private void convertToPaper(Node root, char[][] paper) {
+        if (root.getLeft() == null) {
             return;
         }
 
-        if (node.getLeft() == null && node.getRight() == null) {
-            int nameStartX = startX + width / 2;
-            int nameStartY = startY + height / 2;
-            if (nameStartX < canvas[0].length && nameStartY < canvas.length) {
-                canvas[nameStartY][nameStartX] = node.getValue();
-            }
+        root.getLeft().setX(root.getX());
+        root.getLeft().setY(root.getY());
+        root.getRight().setX(root.getX());
+        root.getRight().setY(root.getY());
+
+        if (root.getLeft().getValue() != '|' && root.getLeft().getValue() != '-') {
+            fillPaper(root.getLeft(), paper);
         } else {
-            if (node.isHorizontal()) {
-                int mid = startX + width / 2;
-                for (int i = startY; i < startY + height; i++) {
-                    if (i < canvas.length && mid < canvas[0].length) {
-                        canvas[i][mid] = '|';
-                    }
-                }
-                drawNode(node.getLeft(), canvas, startX, startY, mid - startX, height);
-                drawNode(node.getRight(), canvas, mid + 1, startY, startX + width - mid - 1, height);
-            } else {
-                int mid = startY + height / 2;
-                for (int i = startX; i < startX + width; i++) {
-                    if (mid < canvas.length && i < canvas[0].length) {
-                        canvas[mid][i] = '-';
-                    }
-                }
-                drawNode(node.getLeft(), canvas, startX, startY, width, mid - startY);
-                drawNode(node.getRight(), canvas, startX, mid + 1, width, startY + height - mid - 1);
-            }
+            convertToPaper(root.getLeft(), paper);
+        }
+
+        if (root.getValue() == '|') {
+            root.getRight().setX(root.getRight().getX() + root.getLeft().getWidth());
+        } else {
+            root.getRight().setY(root.getRight().getY() + root.getLeft().getHeight());
+        }
+
+        if (root.getRight().getValue() != '|' && root.getRight().getValue() != '-') {
+            fillPaper(root.getRight(), paper);
+        } else {
+            convertToPaper(root.getRight(), paper);
         }
     }
+
+    private void fillPaper(Node node, char[][] paper) {
+        int startX = node.getX();
+        int startY = node.getY();
+        int endX = startX + node.getWidth() - 1;
+        int endY = startY + node.getHeight() - 1;
+
+        for (int i = startY; i <= endY; i++) {
+                paper[i][startX] = '|';
+        }
+        // Draw top and bottom borders
+        for (int j = startX; j <= endX; j++) {
+                paper[startY][j] = '-';
+        }
+
+        // Place the node value in the center
+        if (node.getHeight() > 2 && node.getWidth() > 2) {
+            int centerX = startX + (node.getWidth() / 2);
+            int centerY = startY + (node.getHeight() / 2);
+            paper[centerY][centerX] = node.getValue();
+        } else if (node.getHeight() > 1 && node.getWidth() > 1) {
+            paper[startY + 1][startX + 1] = node.getValue();
+        }
+    }
+
+
 
     // function to get the height and the width of the whole rectangle and store
     // them in the root
@@ -221,7 +237,6 @@ public class BinaryTreeModel {
         if (node == null) {
             return;
         }
-
         if (node.getLeft() != null) {
             calculateDimensions(node.getLeft());
         }
@@ -229,19 +244,20 @@ public class BinaryTreeModel {
         if (node.getRight() != null) {
             calculateDimensions(node.getRight());
         }
-
         if (node.getValue() == '|') {
-            node.setHorizontal(true);
+            node.setHorizontal(false);
             node.setWidth((node.getLeft() != null ? node.getLeft().getWidth() : 0)
-                    + (node.getRight() != null ? node.getRight().getWidth() : 0) + 1);
+                    + (node.getRight() != null ? node.getRight().getWidth() : 0));
             node.setHeight(Math.max(node.getLeft() != null ? node.getLeft().getHeight() : 0,
                     node.getRight() != null ? node.getRight().getHeight() : 0));
+            System.out.println(node.getValue() + " [" + node.getWidth() + ',' + node.getHeight() + ']');
         } else if (node.getValue() == '-') {
-            node.setHorizontal(false);
+            node.setHorizontal(true);
             node.setWidth(Math.max(node.getLeft() != null ? node.getLeft().getWidth() : 0,
                     node.getRight() != null ? node.getRight().getWidth() : 0));
             node.setHeight((node.getLeft() != null ? node.getLeft().getHeight() : 0)
-                    + (node.getRight() != null ? node.getRight().getHeight() : 0) + 1);
+                    + (node.getRight() != null ? node.getRight().getHeight() : 0));
+            System.out.println(node.getValue() + " [" + node.getWidth() + ',' + node.getHeight() + ']');
         }
     }
 
@@ -316,7 +332,7 @@ public class BinaryTreeModel {
         }
         if (root.getValue() == '|') {
             root.getRight().setX(root.getRight().getX() + root.getLeft().getWidth());// if (root.data.equals("|"))
-                                                                                     // {root.right.x+=root.left.width;
+            // {root.right.x+=root.left.width;
         } else {
             root.getRight().setY(root.getRight().getY() + root.getLeft().getHeight());
         }
@@ -335,16 +351,16 @@ public class BinaryTreeModel {
     }
 
     //calculate the maximum level in the tree:
-    public void calcMaxLevel(int curLevel,Node curNode){
-        maxLevel=Math.max(curLevel, maxLevel);
-        if(curNode.getValue()=='|'||curNode.getValue()=='-'){
-            calcMaxLevel(curLevel+1,curNode.getLeft());
-            calcMaxLevel(curLevel+1,curNode.getRight());
+    public void calcMaxLevel(int curLevel, Node curNode) {
+        maxLevel = Math.max(curLevel, maxLevel);
+        if (curNode.getValue() == '|' || curNode.getValue() == '-') {
+            calcMaxLevel(curLevel + 1, curNode.getLeft());
+            calcMaxLevel(curLevel + 1, curNode.getRight());
         }
     }
 
-     //function that I give it the array and the filePath which I want to write the array on it
-    public  void print2DArrayToFile(char[][] array, String filePath) {
+    //function that I give it the array and the filePath which I want to write the array on it
+    public void print2DArrayToFile(char[][] array, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (char[] row : array) {
                 for (char ch : row) {
@@ -356,4 +372,66 @@ public class BinaryTreeModel {
             e.printStackTrace();
         }
     }
+    public Node buildTree(char[][] rectangle, int startX, int startY, int endX, int endY) {
+        if (startX > endX || startY > endY) return null;
+
+        // Search for '-' to split horizontally or '|' to split vertically
+        int EX = findRowDivider(rectangle, startX, startY, endX, endY);
+        if (EX != -1) {
+            Node node = new Node('-');
+            node.setLeft(buildTree(rectangle, startX, startY, EX - 1, endY));
+            node.setRight(buildTree(rectangle, EX + 1, startY, endX, endY));
+            return node;
+        }
+        int EY = findColDivider(rectangle, startX, startY, endX, endY);
+        if (EY != -1) {
+            Node node = new Node('|');
+            node.setLeft(buildTree(rectangle, startX, startY, endX, EY - 1));
+            node.setRight(buildTree(rectangle, startX, EY + 1, endX, endY));
+            return node;
+        }
+        for (int r = startX; r <= endX; r++) {
+            for (int c = startY; c <= endY; c++) {
+                if (Character.isLetter(rectangle[r][c])) {
+                    int width = endY - startY + 2;
+                    int height = endX - startX + 2;
+                    return new Node(rectangle[r][c], width, height);
+                }
+            }
+        }
+        return new Node(rectangle[startX][startY]);
+    }
+
+    public int findRowDivider(char[][] rectangle, int startX, int startY, int endX, int endY) {
+        for (int row = startX; row <= endX; row++) {
+            boolean hasDivider = true;
+            for (int col = startY; col <= endY; col++) {
+                if (rectangle[row][col] != '-'&&rectangle[row][col]!='|') {
+                    hasDivider = false;
+                    break;
+                }
+            }
+            if (hasDivider) {
+                return row;
+            }
+        }
+        return -1;
+    }
+
+    public int findColDivider(char[][] rectangle, int startX, int startY, int endX, int endY) {
+        for (int col = startY; col <= endY; col++) {
+            boolean hasDivider = true;
+            for (int row = startX; row <= endX; row++) {
+                if (rectangle[row][col] != '-'&&rectangle[row][col]!='|') {
+                    hasDivider = false;
+                    break;
+                }
+            }
+            if (hasDivider) {
+                return col;
+            }
+        }
+        return -1;
+    }
+
 }

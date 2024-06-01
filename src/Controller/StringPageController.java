@@ -31,7 +31,7 @@ public class StringPageController {
 
     // constructor:
     public StringPageController(BinaryTreeModel model, TreeView treeView, RectangleView rectangleView,
-            TextView textView, JFrame frame) {
+                                TextView textView, JFrame frame) {
         this.frame = frame;
         this.model = model;
         this.treeView = treeView;
@@ -55,8 +55,9 @@ public class StringPageController {
                 StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
             } else {
                 StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
-                char[][] rec=model.drawing(model.getRoot());
-                model.print2DArrayToFile(rec, "D:\\Projects\\Second Year Project\\Slicing Tree\\output.txt");                rectangleView.addRectangles(response);
+                char[][] rec = model.drawing(model.getRoot());
+                model.print2DArrayToFile(rec, "D:\\Algorithm2 Project/output.txt");
+                rectangleView.addRectangles(response);
                 ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
             }
         }
@@ -75,8 +76,8 @@ public class StringPageController {
             System.out.println(model.getMaxLevel());
             StaticMethods.resetPanel(treeView);
             TreeView.resetRoot();
-            treeView.add(TreeView.textRoot); 
-            TreeView.textRoot.setBranchValue( (int) (Math.pow(2, Math.max(0, model.getMaxLevel() - 3))* 50));
+            treeView.add(TreeView.textRoot);
+            TreeView.textRoot.setBranchValue((int) (Math.pow(2, Math.max(0, model.getMaxLevel() - 3)) * 50));
             TreeView.textRoot.setText(Character.toString(model.getRoot().getValue()));
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Tree");
             treeDrawer(TreeView.textRoot, model.getRoot());

@@ -19,8 +19,14 @@ public class Main {
             TextView textToTreeView = new TextView();
             RectangleView rectangleView = new RectangleView();
             LeavesCheckView leavesCheckView = new LeavesCheckView();
-            new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView, leavesCheckView,rectangleView);
+            new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView, leavesCheckView, rectangleView);
         });
+   /*    BinaryTreeModel model = new BinaryTreeModel();
+        char [][]rec=model.read2DArrayFromFile("D:\\Algorithm2 Project/output.txt");
+        Node root = model.buildTree(rec, 1, 1, rec.length-2 , rec[0].length-2 );
+        StringBuilder s=new StringBuilder();
+        model.inorderRec(root,s,true);
+        System.out.println(s) ;*/
     }
 }
 //((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))
