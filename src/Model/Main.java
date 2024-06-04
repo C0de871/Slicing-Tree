@@ -9,10 +9,12 @@ import Views.pages.RectangleView;
 import Views.pages.TextView;
 import Views.pages.TreeView;
 
-public class Main {
-    public static void main(String[] args) {
+import java.io.IOException;
 
-        SwingUtilities.invokeLater(() -> {
+public class Main {
+    public static void main(String[] args) throws IOException {
+
+     SwingUtilities.invokeLater(() -> {
             BinaryTreeModel model = new BinaryTreeModel();
             MainMenuView mainMenuPanel = new MainMenuView();
             TreeView treeToRectangleView = new TreeView();
@@ -21,12 +23,18 @@ public class Main {
             LeavesCheckView leavesCheckView = new LeavesCheckView();
             new MainController(model, mainMenuPanel, treeToRectangleView, textToTreeView, leavesCheckView, rectangleView);
         });
-   /*    BinaryTreeModel model = new BinaryTreeModel();
-        char [][]rec=model.read2DArrayFromFile("D:\\Algorithm2 Project/output.txt");
-        Node root = model.buildTree(rec, 1, 1, rec.length-2 , rec[0].length-2 );
-        StringBuilder s=new StringBuilder();
-        model.inorderRec(root,s,true);
-        System.out.println(s) ;*/
+     /*   BinaryTreeModel model = new BinaryTreeModel();
+        FileOperations f = new FileOperations();
+        char[][] rec = f.read2DArrayFromFile("D:\\Algorithm2 Project/output.txt");
+        Node root = model.buildTree(rec, 1, 1, rec.length - 2, rec[0].length - 2);
+        model.setRoot(root);
+        //model.rotateTree();
+        RectangleOperations r = new RectangleOperations();
+       //char[][] rotated = r.drawing(model.getRoot());
+       // f.print2DArrayToFile(rotated, "D:\\Algorithm2 Project/rotate.txt");
+        StringBuilder s = new StringBuilder();
+        model.inorderRec(root, s, true);
+        System.out.println(s);*/
     }
 }
 //((((A[60,40]-B[60,20])|C[20,60])-((D[50,30]-((E[25,20]-F[25,20])|G[25,40]))|((H[20,40]|I[10,40])-(J[30,15]-K[30,15]))))|(L[20,65]-M[20,65]))
