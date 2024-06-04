@@ -104,165 +104,31 @@ public class BinaryTreeModel {
         }
     }
 
-    // function to check if the Entered string can form a rectangle or not
-    public boolean canFormRectangle(String input) {
-        Stack<Node> stack = new Stack<>();
-
-        for (char c : input.toCharArray()) {
-            if (c == '(') {
-                continue;
-            } else if (c == ')') {
-                Node right = stack.pop();
-                Node operator = stack.pop();
-                Node left = stack.pop();
-
-                if (operator.getValue() == '|') {
-                    if (Objects.equals(left.getHeight(), right.getHeight())) {
-                        Node newNode = new Node(operator.getValue(), left.getWidth() + right.getWidth(),
-                                left.getHeight());
-                        stack.push(newNode);
-                    } else {
-                        return false;
-                    }
-                } else if (operator.getValue() == '-') {
-                    if (Objects.equals(left.getWidth(), right.getWidth())) {
-                        Node newNode = new Node(operator.getValue(), left.getWidth(),
-                                left.getHeight() + right.getHeight());
-                        stack.push(newNode);
-                    } else {
-                        return false;
-                    }
-                }
-            } else if (Character.isLetter(c)) {
-                int start = input.indexOf('[', input.indexOf(c)) + 1;
-                int end = input.indexOf(',', start);
-                int width = Integer.parseInt(input.substring(start, end));
-                start = end + 1;
-                end = input.indexOf(']', start);
-                int height = Integer.parseInt(input.substring(start, end));
-                Node newNode = new Node(c, width, height);
-                stack.push(newNode);
-            } else if (c == '|' || c == '-') {
-                Node operator = new Node(c, 0, 0);
-                stack.push(operator);
-            }
-        }
-
-        return stack.size() == 1;
-    }
-
-    // function to draw a rectangle from a tree
-
-    public char[][] drawing(Node root) {
-        calculateDimensions(root);
-        int width = root.getWidth();
-        int height = root.getHeight();
-        char[][] canvas = new char[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                canvas[i][j] = ' ';
-            }
-        }
-        for (int i = 0; i < width; i++) {
-            canvas[0][i] = '-';
-            canvas[height - 1][i] = '-';
-        }
-        for (int i = 0; i < height; i++) {
-            canvas[i][0] = '|';
-            canvas[i][width - 1] = '|';
-        }
-        convertToPaper(root, canvas);
-        return canvas;
-    }
-
-
-    private void convertToPaper(Node root, char[][] paper) {
-        if (root.getLeft() == null) {
-            return;
-        }
-
-        root.getLeft().setX(root.getX());
-        root.getLeft().setY(root.getY());
-        root.getRight().setX(root.getX());
-        root.getRight().setY(root.getY());
-
-        if (root.getLeft().getValue() != '|' && root.getLeft().getValue() != '-') {
-            fillPaper(root.getLeft(), paper);
-        } else {
-            convertToPaper(root.getLeft(), paper);
-        }
-
-        if (root.getValue() == '|') {
-            root.getRight().setX(root.getRight().getX() + root.getLeft().getWidth());
-        } else {
-            root.getRight().setY(root.getRight().getY() + root.getLeft().getHeight());
-        }
-
-        if (root.getRight().getValue() != '|' && root.getRight().getValue() != '-') {
-            fillPaper(root.getRight(), paper);
-        } else {
-            convertToPaper(root.getRight(), paper);
+    public void rotateTree() {
+        if (root != null) {
+            transposeNode(root);
         }
     }
-
-    private void fillPaper(Node node, char[][] paper) {
-        int startX = node.getX();
-        int startY = node.getY();
-        int endX = startX + node.getWidth() - 1;
-        int endY = startY + node.getHeight() - 1;
-
-        for (int i = startY; i <= endY; i++) {
-                paper[i][startX] = '|';
-        }
-        // Draw top and bottom borders
-        for (int j = startX; j <= endX; j++) {
-                paper[startY][j] = '-';
-        }
-
-        // Place the node value in the center
-        if (node.getHeight() > 2 && node.getWidth() > 2) {
-            int centerX = startX + (node.getWidth() / 2);
-            int centerY = startY + (node.getHeight() / 2);
-            paper[centerY][centerX] = node.getValue();
-        } else if (node.getHeight() > 1 && node.getWidth() > 1) {
-            paper[startY + 1][startX + 1] = node.getValue();
-        }
-    }
-
-
-
-    // function to get the height and the width of the whole rectangle and store
-    // them in the root
-    public void calculateDimensions(Node node) {
+    private void transposeNode(Node node) {
         if (node == null) {
             return;
         }
-        if (node.getLeft() != null) {
-            calculateDimensions(node.getLeft());
-        }
 
-        if (node.getRight() != null) {
-            calculateDimensions(node.getRight());
-        }
         if (node.getValue() == '|') {
-            node.setHorizontal(false);
-            node.setWidth((node.getLeft() != null ? node.getLeft().getWidth() : 0)
-                    + (node.getRight() != null ? node.getRight().getWidth() : 0));
-            node.setHeight(Math.max(node.getLeft() != null ? node.getLeft().getHeight() : 0,
-                    node.getRight() != null ? node.getRight().getHeight() : 0));
-            System.out.println(node.getValue() + " [" + node.getWidth() + ',' + node.getHeight() + ']');
+            node.setValue('-');
         } else if (node.getValue() == '-') {
-            node.setHorizontal(true);
-            node.setWidth(Math.max(node.getLeft() != null ? node.getLeft().getWidth() : 0,
-                    node.getRight() != null ? node.getRight().getWidth() : 0));
-            node.setHeight((node.getLeft() != null ? node.getLeft().getHeight() : 0)
-                    + (node.getRight() != null ? node.getRight().getHeight() : 0));
-            System.out.println(node.getValue() + " [" + node.getWidth() + ',' + node.getHeight() + ']');
+            node.setValue('|');
         }
+        int temp = node.getWidth();
+        node.setWidth(node.getHeight());
+        node.setHeight(temp);
+
+        transposeNode(node.getLeft());
+        transposeNode(node.getRight());
     }
 
     // function to Rotate the rectangle
-    public char[][] transposeMatrix(char[][] matrix) {
+/*    public char[][] transposeMatrix(char[][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
         char[][] rotated = new char[cols][rows];
@@ -280,30 +146,8 @@ public class BinaryTreeModel {
             }
         }
         return rotated;
-    }
+    }*/
 
-    // function to Read a rectangle from a file
-    public char[][] read2DArrayFromFile(String filePath) throws IOException {
-        List<char[]> lines = new ArrayList<>();
-        int maxWidth = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                maxWidth = Math.max(maxWidth, line.length());
-                lines.add(line.toCharArray());
-            }
-        }
-        int height = lines.size();
-        char[][] canvas = new char[height][maxWidth];
-        for (int i = 0; i < height; i++) {
-            char[] lineChars = lines.get(i);
-            System.arraycopy(lineChars, 0, canvas[i], 0, lineChars.length);
-            for (int j = lineChars.length; j < maxWidth; j++) {
-                canvas[i][j] = ' ';
-            }
-        }
-        return canvas;
-    }
 
     public ArrayList<Node> convertToPaper() {
         ArrayList<Node> pieces = new ArrayList<>();
@@ -311,7 +155,8 @@ public class BinaryTreeModel {
             return null;
         StringBuilder result = new StringBuilder();
         inorderRec(this.root, result, true);
-        if (canFormRectangle(result.toString())) {
+        RectangleOperations R=new RectangleOperations();
+        if (R.canFormRectangle(result.toString())) {
             convertToPaper(root, pieces);
         }
         return pieces;
@@ -359,19 +204,7 @@ public class BinaryTreeModel {
         }
     }
 
-    //function that I give it the array and the filePath which I want to write the array on it
-    public void print2DArrayToFile(char[][] array, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (char[] row : array) {
-                for (char ch : row) {
-                    writer.write(ch);
-                }
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
     public Node buildTree(char[][] rectangle, int startX, int startY, int endX, int endY) {
         if (startX > endX || startY > endY) return null;
 
@@ -433,5 +266,4 @@ public class BinaryTreeModel {
         }
         return -1;
     }
-
 }

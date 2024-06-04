@@ -4,7 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import Model.BinaryTreeModel;
+import Model.FileOperations;
 import Model.Node;
+import Model.RectangleOperations;
 import Views.Components.AnimationCompleteListener;
 import Views.Components.AnimationMethods;
 import Views.Components.StaticMethods;
@@ -44,6 +46,8 @@ public class StringPageController {
     private void textToRectangle() {
         StaticMethods.resetPanel(rectangleView);
         String text = textView.getText();
+        FileOperations F=new FileOperations();
+        RectangleOperations R=new RectangleOperations();
         model.export(text);
         if (model.getRoot() == null) {
             StaticMethods.showMassage("Enter some thing Valid My NIGGA -<", frame, Type.INFO);
@@ -55,8 +59,8 @@ public class StringPageController {
                 StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
             } else {
                 StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
-                char[][] rec = model.drawing(model.getRoot());
-                model.print2DArrayToFile(rec, "D:\\Algorithm2 Project/output.txt");
+                char[][] rec = R.drawing(model.getRoot());
+                F.print2DArrayToFile(rec, "D:\\Algorithm2 Project/rotate.txt");
                 rectangleView.addRectangles(response);
                 ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
             }
