@@ -9,7 +9,16 @@ import java.util.*;
 
 public class BinaryTreeModel {
     private Node root;
+    String path;
     private int maxLevel = 0;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public int getMaxLevel() {
         return maxLevel;
@@ -109,6 +118,7 @@ public class BinaryTreeModel {
             transposeNode(root);
         }
     }
+
     private void transposeNode(Node node) {
         if (node == null) {
             return;
@@ -155,10 +165,13 @@ public class BinaryTreeModel {
             return null;
         StringBuilder result = new StringBuilder();
         inorderRec(this.root, result, true);
-        RectangleOperations R=new RectangleOperations();
+        RectangleOperations R = new RectangleOperations();
         if (R.canFormRectangle(result.toString())) {
             convertToPaper(root, pieces);
         }
+        char[][] rec = R.drawing(getRoot());
+        FileOperations F=new FileOperations();
+        F.print2DArrayToFile(rec,path);
         return pieces;
     }
 
@@ -204,6 +217,11 @@ public class BinaryTreeModel {
         }
     }
 
+    public Node drawTreeFromRec(String path) throws IOException {
+        FileOperations file = new FileOperations();
+        char[][] rec = file.read2DArrayFromFile(path);
+        return buildTree(rec, 1, 1, rec.length - 2, rec[0].length - 2);
+    }
 
     public Node buildTree(char[][] rectangle, int startX, int startY, int endX, int endY) {
         if (startX > endX || startY > endY) return null;
@@ -239,7 +257,7 @@ public class BinaryTreeModel {
         for (int row = startX; row <= endX; row++) {
             boolean hasDivider = true;
             for (int col = startY; col <= endY; col++) {
-                if (rectangle[row][col] != '-'&&rectangle[row][col]!='|') {
+                if (rectangle[row][col] != '-' && rectangle[row][col] != '|') {
                     hasDivider = false;
                     break;
                 }
@@ -255,7 +273,7 @@ public class BinaryTreeModel {
         for (int col = startY; col <= endY; col++) {
             boolean hasDivider = true;
             for (int row = startX; row <= endX; row++) {
-                if (rectangle[row][col] != '-'&&rectangle[row][col]!='|') {
+                if (rectangle[row][col] != '-' && rectangle[row][col] != '|') {
                     hasDivider = false;
                     break;
                 }

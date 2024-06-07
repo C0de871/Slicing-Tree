@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileOperations {
-
     public char[][] read2DArrayFromFile(String filePath) throws IOException {
         List<char[]> lines = new ArrayList<>();
         int maxWidth = 0;
