@@ -19,6 +19,7 @@ public class TextView extends JPanel {
     Button textToRectangleButton;
     Button textToTreeButton;
     Button backButton;
+    Button resetButton;
 
     // constructor:
     public TextView() {
@@ -30,11 +31,12 @@ public class TextView extends JPanel {
         // init components:
         textField = new TextField(750, 365, 800, 70);
         textToRectangleButton = new Button();
+        resetButton = new Button();
         textToTreeButton = new Button();
         backButton = new Button();
 
         // button decoration:
-        StaticMethods.createButtons(textToRectangleButton, textToTreeButton, backButton, "Text To Rec", "Text to Tree",
+        StaticMethods.createButtons(textToRectangleButton, textToTreeButton, backButton,resetButton, "Text To Rec", "Text to Tree",
                 this);
 
         // setRound:
@@ -61,6 +63,11 @@ public class TextView extends JPanel {
             ActionListener textToRectangleActionListener) {
         textToTreeButton.addActionListener(textToTreeActionListener);
         textToRectangleButton.addActionListener(textToRectangleActionListener);
+    }
+
+    // add action listener to the reset button:
+    public void addResetButtonActionListener(ActionListener actionListener) {
+        resetButton.addActionListener(actionListener);
     }
 
     public void setText(String Text) {
