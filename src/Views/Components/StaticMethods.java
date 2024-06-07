@@ -54,12 +54,13 @@ public class StaticMethods {
     }
 
     //decorate a buttons:
-    public static void createButtons(Button converter1,Button converter2,Button backButton,String button1Text, String button2Text, Container panal) {
+    public static void createButtons(Button converter1,Button converter2,Button backButton,Button resetButton,String button1Text, String button2Text, Container panal) {
 
         // setBounds:
         converter1.setBounds(580, 680, 150, 70);
         converter2.setBounds(770, 680, 150, 70);
         backButton.setBounds(25, 680, 100, 70);
+        resetButton.setBounds(1375,680,100,70);
 
         // set Color:
         converter1.setBackground(ColorController.selectButtonColor);
@@ -74,11 +75,16 @@ public class StaticMethods {
         backButton.setForeground(ColorController.selectButtonForgroundColor);
         backButton.setRippleColor(new java.awt.Color(255, 255, 255));
         backButton.setShadowColor(new java.awt.Color(29, 162, 253));
+        resetButton.setBackground(ColorController.resetButtonBackground);
+        resetButton.setForeground(ColorController.selectButtonForgroundColor);
+        resetButton.setRippleColor(new java.awt.Color(255, 255, 255));
+        resetButton.setShadowColor(new java.awt.Color(29, 162, 253));
 
         // set Font:
         converter1.setFont(FontController.instructionLabelFont);
         converter2.setFont(FontController.instructionLabelFont);
         backButton.setFont(FontController.instructionLabelFont);
+        resetButton.setFont(FontController.instructionLabelFont);
 
         // button decoration:
         converter1.setText(button1Text);
@@ -90,11 +96,15 @@ public class StaticMethods {
         backButton.setText("Back");
         backButton.setRound(50);
         backButton.setFocusable(false);
+        resetButton.setText("Reset!");
+        resetButton.setRound(50);
+        resetButton.setFocusable(false);
 
         // add:
         panal.add(converter1);
         panal.add(converter2);
         panal.add(backButton);
+        panal.add(resetButton);
     }
 
     //reset the container

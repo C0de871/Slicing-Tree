@@ -7,6 +7,7 @@ import Views.Components.StaticMethods;
 import Views.pages.LeavesCheckView;
 import Views.pages.RectangleView;
 import Views.pages.TextView;
+import Views.pages.TreeView;
 import button.Button;
 
 import java.awt.CardLayout;
@@ -30,21 +31,22 @@ public class RectanglePageController {
         this.textView = textView;
         rectangleView.addBackButtonActionListener(e -> backToMainMenu()); 
         rectangleView.addConvertersActionListener(e -> rectangleToTree(), e -> rectangleToString()); 
-        
+        rectangleView.addResetButtonActionListener(e->reset());
     }
 
     private void rectangleToString() {
-        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(),"Text");
-        
     }
 
     private void rectangleToTree() {
 
-        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(),"Tree");
     }
 
     private void backToMainMenu() {
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(),"MainMenu");
+    }
+
+    //reset the panel:
+    private void reset(){
         StaticMethods.resetPanel(rectangleView);
     }
 }

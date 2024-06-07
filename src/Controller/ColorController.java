@@ -9,4 +9,5 @@ public class ColorController {
     public static Color instructionsLabelColor = Color.decode("#84898c");
     public static Color selectButtonColor = Color.decode("#1DA2FF");
     public static Color selectButtonForgroundColor = Color.decode("#F5F5F5");
+    public static Color resetButtonBackground = Color.decode("#FF4000");
 }

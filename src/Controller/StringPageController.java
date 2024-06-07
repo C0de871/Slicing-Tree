@@ -41,6 +41,7 @@ public class StringPageController {
         this.rectangleView = rectangleView;
         textView.addBackButtonActionListener(e -> backToMainMenu());
         textView.convertersActionListener(e -> textToTree(e), e -> textToRectangle());
+        textView.addResetButtonActionListener(e -> reset());
     }
 
     private void textToRectangle() {
@@ -111,6 +112,10 @@ public class StringPageController {
     // back to the main menu:
     private void backToMainMenu() {
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
-        textView.setText("");
+    }
+
+    //reset the panel:
+    private void reset(){
+        textView.setText("");   
     }
 }

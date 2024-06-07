@@ -148,7 +148,7 @@ public class BinaryTreeModel {
         return rotated;
     }*/
 
-
+    
     public ArrayList<Node> convertToPaper() {
         ArrayList<Node> pieces = new ArrayList<>();
         if (!isComplete(this.root))

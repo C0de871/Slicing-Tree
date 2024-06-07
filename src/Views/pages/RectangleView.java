@@ -23,6 +23,7 @@ public class RectangleView extends JPanel {
     Button rectangleToTreeButton;
     Button rectangleToTextButton;
     Button backButton;
+    Button resetButton;
 
     public RectangleView() {
         this.setBackground(ColorController.MainMenuColor);
@@ -32,9 +33,10 @@ public class RectangleView extends JPanel {
         rectangleToTreeButton = new Button();
         rectangleToTextButton = new Button();
         backButton = new Button();
+        resetButton = new Button();
 
         // Buttons Decoration:
-        StaticMethods.createButtons(rectangleToTreeButton, rectangleToTextButton, backButton, "Rec To Tree",
+        StaticMethods.createButtons(rectangleToTreeButton, rectangleToTextButton, backButton,resetButton, "Rec To Tree",
                 "Rec to Text", this);
     }
 
@@ -57,6 +59,11 @@ public class RectangleView extends JPanel {
     // add action listener to the back button:
     public void addBackButtonActionListener(ActionListener actionListener) {
         backButton.addActionListener(actionListener);
+    }
+
+    // add action listener to the reset button:
+    public void addResetButtonActionListener(ActionListener actionListener) {
+        resetButton.addActionListener(actionListener);
     }
 
     // add action listener to the converter Buttons:

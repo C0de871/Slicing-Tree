@@ -36,6 +36,7 @@ public class TreePageController {
         this.rectangleView = rectangleView;
         treeView.addBackButtonActionListener(e -> backToMainMenu());
         treeView.convertersActionListener(e -> treeToRectangle(), e -> treeToText());
+        treeView.addResetButtonActionListener(e-> reset());
     }
 
     private void treeToText() {
@@ -56,16 +57,16 @@ public class TreePageController {
             return;
         }
         initRoot();
-        FileOperations F=new FileOperations();
-        RectangleOperations R=new RectangleOperations();
+        // FileOperations F=new FileOperations();
+        // RectangleOperations R=new RectangleOperations();
         ArrayList<Node> response = model.convertToPaper();
         if (response == null) {
             StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
         } else if (response.isEmpty()) {
             StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
         } else {
-            char[][] rec=R.drawing(model.getRoot());
-            F.print2DArrayToFile(rec, "D:\\Projects\\Second Year Project\\Slicing Tree\\output.txt");
+            // char[][] rec=R.drawing(model.getRoot());
+            // F.print2DArrayToFile(rec, "D:\\Projects\\Second Year Project\\Slicing Tree\\output.txt");
             StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
             rectangleView.addRectangles(response);
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
@@ -83,6 +84,10 @@ public class TreePageController {
     // back to main menu:
     private void backToMainMenu() {
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
+    }
+
+    //reset the panel:
+    private void reset(){
         StaticMethods.resetPanel(treeView);
         TreeView.resetRoot();
         treeView.add(TreeView.textRoot);
