@@ -106,11 +106,11 @@ public class BinaryTreeModel {
         }
     }
 
-    private StringBuilder fromRecToText(String path) {
+    public String fromRecToText() {
         drawTreeFromRec();
         StringBuilder Text = new StringBuilder();
         inorderRec(this.root, Text, true);
-        return Text;
+        return Text.toString();
     }
 
     public void rotateRecangel() {
@@ -276,5 +276,19 @@ public class BinaryTreeModel {
             }
         }
         return -1;
+    }
+
+    //check if valid tree:
+    public ArrayList<Node> isValidTree() {
+        ArrayList<Node> pieces = new ArrayList<>();
+        if (!isComplete(this.root))
+            return null;
+        StringBuilder result = new StringBuilder();
+        inorderRec(this.root, result, true);
+        RectangleOperations R = new RectangleOperations();
+        if (R.canFormRectangle(result.toString())) {
+            convertToPaper(root, pieces);
+        }
+        return pieces;
     }
 }

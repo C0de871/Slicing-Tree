@@ -48,7 +48,12 @@ public class RectanglePageController {
     }
 
     private void rectangleToText() {
-
+        
+        textView.setText("");
+        String response = model.fromRecToText();
+        textView.setText(response);
+        StaticMethods.showMassage("Successfuly convert the Rectangle to Text", frame, Type.SUCCESS);
+        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Text");
     }
 
     private void rectangleToTree() {

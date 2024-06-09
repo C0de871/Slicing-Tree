@@ -43,9 +43,24 @@ public class TreePageController {
     }
 
     private void treeToText() {
+        if (TreeView.textRoot.getText().equals("null")) {
+            StaticMethods.showMassage("There is no Root yet", frame, Type.INFO);
+            return;
+        }
+        initRoot();
+
+        // check if valid:
+        ArrayList<Node> response1 = model.isValidTree();
+        if (response1 == null) {
+            StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
+            return;
+        } else if (response1.isEmpty()) {
+            StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
+            return;
+        }
+
         textView.setText("");
         StringBuilder response = new StringBuilder();
-        initRoot();
         model.inorderRec(model.getRoot(), response, true);
         textView.setText(response.toString());
         StaticMethods.showMassage("Successfuly convert the tree to String", frame, Type.SUCCESS);
