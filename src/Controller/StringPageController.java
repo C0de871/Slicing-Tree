@@ -33,7 +33,7 @@ public class StringPageController {
 
     // constructor:
     public StringPageController(BinaryTreeModel model, TreeView treeView, RectangleView rectangleView,
-                                TextView textView, JFrame frame) {
+            TextView textView, JFrame frame) {
         this.frame = frame;
         this.model = model;
         this.treeView = treeView;
@@ -47,25 +47,27 @@ public class StringPageController {
     private void textToRectangle() {
         StaticMethods.resetPanel(rectangleView);
         String text = textView.getText();
-        FileOperations F=new FileOperations();
-        RectangleOperations R=new RectangleOperations();
         model.export(text);
         if (model.getRoot() == null) {
             StaticMethods.showMassage("Enter some thing Valid My NIGGA -<", frame, Type.INFO);
-        } else {
-            ArrayList<Node> response = model.convertToPaper();
-            if (response == null) {
-                StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
-            } else if (response.isEmpty()) {
-                StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
-            } else {
-                StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
-                char[][] rec = R.drawing(model.getRoot());
-                F.print2DArrayToFile(rec, "D:\\Algorithm2 Project/rotate.txt");
-                rectangleView.addRectangles(response);
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
-            }
+            return;
         }
+        String filePath = StaticMethods.chooseFile();
+        if (filePath == null) {
+            StaticMethods.showMassage("why you don't choose a vaild file bro!", frame, Type.WARNING);
+            return;
+        }
+        ArrayList<Node> response = model.convertToPaper(filePath);
+        if (response == null) {
+            StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
+        } else if (response.isEmpty()) {
+            StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
+        } else {
+            StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
+            rectangleView.addRectangles(response);
+            ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
+        }
+
     }
 
     // convert the String to tree:
@@ -114,8 +116,8 @@ public class StringPageController {
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
     }
 
-    //reset the panel:
-    private void reset(){
-        textView.setText("");   
+    // reset the panel:
+    private void reset() {
+        textView.setText("");
     }
 }

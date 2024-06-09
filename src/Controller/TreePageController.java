@@ -2,9 +2,12 @@ package Controller;
 
 import java.awt.CardLayout;
 import java.awt.ScrollPane;
+import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Model.BinaryTreeModel;
 import Model.FileOperations;
@@ -36,7 +39,7 @@ public class TreePageController {
         this.rectangleView = rectangleView;
         treeView.addBackButtonActionListener(e -> backToMainMenu());
         treeView.convertersActionListener(e -> treeToRectangle(), e -> treeToText());
-        treeView.addResetButtonActionListener(e-> reset());
+        treeView.addResetButtonActionListener(e -> reset());
     }
 
     private void treeToText() {
@@ -57,16 +60,17 @@ public class TreePageController {
             return;
         }
         initRoot();
-        // FileOperations F=new FileOperations();
-        // RectangleOperations R=new RectangleOperations();
-        ArrayList<Node> response = model.convertToPaper();
+        String filePath = StaticMethods.chooseFile();
+        if (filePath == null) {
+            StaticMethods.showMassage("why you don't choose a vaild file bro!", frame, Type.WARNING);
+            return;
+        }
+        ArrayList<Node> response = model.convertToPaper(filePath);
         if (response == null) {
             StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
         } else if (response.isEmpty()) {
             StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
         } else {
-            // char[][] rec=R.drawing(model.getRoot());
-            // F.print2DArrayToFile(rec, "D:\\Projects\\Second Year Project\\Slicing Tree\\output.txt");
             StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
             rectangleView.addRectangles(response);
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
@@ -86,8 +90,8 @@ public class TreePageController {
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
     }
 
-    //reset the panel:
-    private void reset(){
+    // reset the panel:
+    private void reset() {
         StaticMethods.resetPanel(treeView);
         TreeView.resetRoot();
         treeView.add(TreeView.textRoot);
