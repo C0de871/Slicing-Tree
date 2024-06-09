@@ -78,36 +78,15 @@ public class StringPageController {
         if (model.getRoot() == null) {
             StaticMethods.showMassage("Enter some thing Valid My NIGGA -<", frame, Type.INFO);
         } else {
-            StaticMethods.showMassage("Tree was planted :)", frame, Type.SUCCESS);
+            StaticMethods.showMassage("Tree planted succefuly:)", frame, Type.SUCCESS);
             model.calcMaxLevel(1, model.getRoot());
-            System.out.println(model.getMaxLevel());
             StaticMethods.resetPanel(treeView);
             TreeView.resetRoot();
             treeView.add(TreeView.textRoot);
             TreeView.textRoot.setBranchValue((int) (Math.pow(2, Math.max(0, model.getMaxLevel() - 3)) * 50));
             TreeView.textRoot.setText(Character.toString(model.getRoot().getValue()));
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Tree");
-            treeDrawer(TreeView.textRoot, model.getRoot());
-        }
-    }
-
-    // Draw the tree:
-    private void treeDrawer(TextFieldNode textNode, Node root) {
-        textNode.setText(Character.toString(root.getValue()));
-        String text = Character.toString(root.getValue());
-        if (text.equals("-") || text.equals("|")) {
-            AnimationMethods newChildren = textNode.addNewChildren(textNode, treeView);
-            newChildren.edgeAnimated(new AnimationCompleteListener() {
-                @Override
-                public void onAnimationComplete() {
-                    treeDrawer(textNode.leftNode, root.getLeft());
-                    treeDrawer(textNode.rightNode, root.getRight());
-                }
-            });
-        } else if (text.matches("[A-Z]")) {
-            textNode.recHeight = root.getHeight();
-            textNode.recWidth = root.getWidth();
-        } else {
+            StaticMethods.treeDrawer(TreeView.textRoot, model.getRoot(),treeView);
         }
     }
 

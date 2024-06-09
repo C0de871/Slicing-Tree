@@ -13,7 +13,9 @@ import java.awt.*;
 
 import Controller.ColorController;
 import Controller.FontController;
+import Model.Node;
 import PanelRound.PanelRound;
+import Views.pages.TreeView;
 import button.Button;
 import javaswingdev.Notification;
 import javaswingdev.Notification.Type;
@@ -54,6 +56,26 @@ public class StaticMethods {
         button.setFocusable(false);
         return button;
 
+    }
+
+    // Draw the tree:
+    public static void treeDrawer(TextFieldNode textNode, Node root,TreeView treeView) {
+        textNode.setText(Character.toString(root.getValue()));
+        String text = Character.toString(root.getValue());
+        if (text.equals("-") || text.equals("|")) {
+            AnimationMethods newChildren = textNode.addNewChildren(textNode, treeView);
+            newChildren.edgeAnimated(new AnimationCompleteListener() {
+                @Override
+                public void onAnimationComplete() {
+                    treeDrawer(textNode.leftNode, root.getLeft(),treeView);
+                    treeDrawer(textNode.rightNode, root.getRight(),treeView);
+                }
+            });
+        } else if (text.matches("[A-Z]")) {
+            textNode.recHeight = root.getHeight();
+            textNode.recWidth = root.getWidth();
+        } else {
+        }
     }
 
     // decorate a buttons:

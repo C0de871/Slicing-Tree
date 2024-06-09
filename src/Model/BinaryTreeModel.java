@@ -10,6 +10,7 @@ import java.util.*;
 public class BinaryTreeModel {
     private Node root;
     private int maxLevel = 0;
+    private String path;
 
     public int getMaxLevel() {
         return maxLevel;
@@ -165,6 +166,7 @@ public class BinaryTreeModel {
         char[][] rec = R.drawing(getRoot());
         FileOperations F = new FileOperations();
         F.print2DArrayToFile(rec, path);
+        this.path = path;
         return pieces;
     }
 
@@ -210,10 +212,15 @@ public class BinaryTreeModel {
         }
     }
 
-    public Node drawTreeFromRec(String path) throws IOException {
+    public Node drawTreeFromRec() {
         FileOperations file = new FileOperations();
-        char[][] rec = file.read2DArrayFromFile(path);
-        return buildTree(rec, 1, 1, rec.length - 2, rec[0].length - 2);
+        char[][] rec;
+        try {
+            rec = file.read2DArrayFromFile(path);
+            return buildTree(rec, 1, 1, rec.length - 2, rec[0].length - 2);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public Node buildTree(char[][] rectangle, int startX, int startY, int endX, int endY) {
