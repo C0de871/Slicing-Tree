@@ -1,9 +1,6 @@
 package Model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -105,6 +102,12 @@ public class BinaryTreeModel {
             setRoot(nodes.pop());
         }
     }
+    private StringBuilder fromRecToText(String path)  {
+        drawTreeFromRec();
+        StringBuilder Text=new StringBuilder();
+        inorderRec(this.root,Text,true);
+        return Text;
+    }
 
     public void rotateTree() {
         if (root != null) {
@@ -136,10 +139,10 @@ public class BinaryTreeModel {
      * int rows = matrix.length;
      * int cols = matrix[0].length;
      * char[][] rotated = new char[cols][rows];
-     * 
+     *
      * for (int r = 0; r < rows; r++) {
      * for (int c = 0; c < cols; c++) {
-     * 
+     *
      * if (matrix[r][c] == '-') {
      * rotated[c][rows - 1 - r] = '|';
      * } else if (matrix[r][c] == '|') {
@@ -226,16 +229,14 @@ public class BinaryTreeModel {
     public Node buildTree(char[][] rectangle, int startX, int startY, int endX, int endY) {
         if (startX > endX || startY > endY)
             return null;
-
-        // Search for '-' to split horizontally or '|' to split vertically
-        int EX = findRowDivider(rectangle, startX, startY, endX, endY);
+        int EX = findDivider(rectangle, startX, startY, endX, endY, true);
         if (EX != -1) {
             Node node = new Node('-');
             node.setLeft(buildTree(rectangle, startX, startY, EX - 1, endY));
             node.setRight(buildTree(rectangle, EX + 1, startY, endX, endY));
             return node;
         }
-        int EY = findColDivider(rectangle, startX, startY, endX, endY);
+        int EY = findDivider(rectangle, startX, startY, endX, endY, false);
         if (EY != -1) {
             Node node = new Node('|');
             node.setLeft(buildTree(rectangle, startX, startY, endX, EY - 1));
@@ -245,8 +246,8 @@ public class BinaryTreeModel {
         for (int r = startX; r <= endX; r++) {
             for (int c = startY; c <= endY; c++) {
                 if (Character.isLetter(rectangle[r][c])) {
-                    int width = endY - startY + 2;
-                    int height = endX - startX + 2;
+                    int width = endY - startY + 1;
+                    int height = endX - startX + 1;
                     return new Node(rectangle[r][c], width, height);
                 }
             }
@@ -254,33 +255,18 @@ public class BinaryTreeModel {
         return new Node(rectangle[startX][startY]);
     }
 
-    public int findRowDivider(char[][] rectangle, int startX, int startY, int endX, int endY) {
-        for (int row = startX; row <= endX; row++) {
+    private int findDivider(char[][] rectangle, int startX, int startY, int endX, int endY, boolean isRow) {
+        for (int i = (isRow ? startX : startY); i <= (isRow ? endX : endY); i++) {
             boolean hasDivider = true;
-            for (int col = startY; col <= endY; col++) {
-                if (rectangle[row][col] != '-' && rectangle[row][col] != '|') {
+            for (int j = (isRow ? startY : startX); j <= (isRow ? endY : endX); j++) {
+                char current = isRow ? rectangle[i][j] : rectangle[j][i];
+                if (current != '-' && current != '|') {
                     hasDivider = false;
                     break;
                 }
             }
             if (hasDivider) {
-                return row;
-            }
-        }
-        return -1;
-    }
-
-    public int findColDivider(char[][] rectangle, int startX, int startY, int endX, int endY) {
-        for (int col = startY; col <= endY; col++) {
-            boolean hasDivider = true;
-            for (int row = startX; row <= endX; row++) {
-                if (rectangle[row][col] != '-' && rectangle[row][col] != '|') {
-                    hasDivider = false;
-                    break;
-                }
-            }
-            if (hasDivider) {
-                return col;
+                return i;
             }
         }
         return -1;
