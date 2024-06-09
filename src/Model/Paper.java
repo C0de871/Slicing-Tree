@@ -17,14 +17,6 @@ public class Paper extends JFrame {
             this.width = width;
         }
 
-        @Override
-        public String toString() {
-            return "Paper{" +
-                    "name='" + name + '\'' +
-                    ", length=" + length +
-                    ", width=" + width +
-                    '}';
-        }
 
     public Paper(ArrayList<Node> pieces){
         setTitle("Paper");
