@@ -4,8 +4,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.*;
 import java.awt.*;
 
@@ -16,23 +18,24 @@ import button.Button;
 import javaswingdev.Notification;
 import javaswingdev.Notification.Type;
 import textfield.TextField;
+import jnafilechooser.api.JnaFileChooser;
 
 public class StaticMethods {
-    static boolean curState= false;
+    static boolean curState = false;
 
-    static int width =0;
-    static int height =0;
+    static int width = 0;
+    static int height = 0;
 
-     // show massage:
-     public static void showMassage(String msg,JFrame frame, Type type) {
+    // show massage:
+    public static void showMassage(String msg, JFrame frame, Type type) {
         Notification panel = new Notification(frame, type, Notification.Location.TOP_LEFT, msg);
         panel.showNotification();
     }
 
-    //create one Button only:
-    public static Button decorateButton(){
+    // create one Button only:
+    public static Button decorateButton() {
 
-        //create new button:
+        // create new button:
         Button button = new Button();
 
         // set Color:
@@ -41,26 +44,27 @@ public class StaticMethods {
         button.setRippleColor(new java.awt.Color(255, 255, 255));
         button.setShadowColor(new java.awt.Color(29, 162, 253));
 
-        //set Font:
+        // set Font:
         button.setFont(FontController.okButton);
 
-        //set Round:
+        // set Round:
         button.setRound(50);
 
-        //set Focusuable:
+        // set Focusuable:
         button.setFocusable(false);
         return button;
 
     }
 
-    //decorate a buttons:
-    public static void createButtons(Button converter1,Button converter2,Button backButton,Button resetButton,String button1Text, String button2Text, Container panal) {
+    // decorate a buttons:
+    public static void createButtons(Button converter1, Button converter2, Button backButton, Button resetButton,
+            String button1Text, String button2Text, Container panal) {
 
         // setBounds:
         converter1.setBounds(580, 680, 150, 70);
         converter2.setBounds(770, 680, 150, 70);
         backButton.setBounds(25, 680, 100, 70);
-        resetButton.setBounds(1375,680,100,70);
+        resetButton.setBounds(1375, 680, 100, 70);
 
         // set Color:
         converter1.setBackground(ColorController.selectButtonColor);
@@ -107,10 +111,10 @@ public class StaticMethods {
         panal.add(resetButton);
     }
 
-    //reset the container
+    // reset the container
     public static void resetPanel(Container c) {
         for (Component comp : c.getComponents()) {
-            if(!(comp instanceof Button)){
+            if (!(comp instanceof Button)) {
                 c.remove(comp);
             }
         }
@@ -118,12 +122,32 @@ public class StaticMethods {
         c.repaint();
     }
 
-     // Method to restrict text field to two digits only
-     private static void restrictToTwoDigits(JTextField textField) {
+    // file chooser:
+    public static String chooseFile() {
+        // Create a file chooser
+        JnaFileChooser fileChooser = new JnaFileChooser();
+
+        // Limit the file chooser to .txt filesf
+        fileChooser.addFilter("Text Files", "txt");
+
+        boolean result = fileChooser.showOpenDialog(null); // Pass null as the parent component
+
+        // If the user selects a file
+        if (result) {
+            File selectedFile = fileChooser.getSelectedFile();
+            return selectedFile.getAbsolutePath();
+        } else {
+            return null;
+        }
+    }
+
+    // Method to restrict text field to two digits only
+    private static void restrictToTwoDigits(JTextField textField) {
         PlainDocument doc = (PlainDocument) textField.getDocument();
         doc.setDocumentFilter(new DocumentFilter() {
             @Override
-            public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
+            public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr)
+                    throws BadLocationException {
                 StringBuilder sb = new StringBuilder();
                 sb.append(fb.getDocument().getText(0, fb.getDocument().getLength()));
                 sb.insert(offset, text);
@@ -134,7 +158,8 @@ public class StaticMethods {
             }
 
             @Override
-            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+                    throws BadLocationException {
                 StringBuilder sb = new StringBuilder();
                 sb.append(fb.getDocument().getText(0, fb.getDocument().getLength()));
                 sb.replace(offset, offset + length, text);

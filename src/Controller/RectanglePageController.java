@@ -35,6 +35,7 @@ public class RectanglePageController {
     }
 
     private void rectangleToString() {
+        
     }
 
     private void rectangleToTree() {

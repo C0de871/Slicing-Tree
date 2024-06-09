@@ -9,16 +9,7 @@ import java.util.*;
 
 public class BinaryTreeModel {
     private Node root;
-    String path;
     private int maxLevel = 0;
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     public int getMaxLevel() {
         return maxLevel;
@@ -38,7 +29,8 @@ public class BinaryTreeModel {
 
     // function to check if the user can input a more nodes or not
     public boolean isComplete(Node node) {
-        if (node == null) return false;
+        if (node == null)
+            return false;
         if (Character.isLetter(node.getValue())) {
             return true;
         }
@@ -138,28 +130,29 @@ public class BinaryTreeModel {
     }
 
     // function to Rotate the rectangle
-/*    public char[][] transposeMatrix(char[][] matrix) {
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-        char[][] rotated = new char[cols][rows];
+    /*
+     * public char[][] transposeMatrix(char[][] matrix) {
+     * int rows = matrix.length;
+     * int cols = matrix[0].length;
+     * char[][] rotated = new char[cols][rows];
+     * 
+     * for (int r = 0; r < rows; r++) {
+     * for (int c = 0; c < cols; c++) {
+     * 
+     * if (matrix[r][c] == '-') {
+     * rotated[c][rows - 1 - r] = '|';
+     * } else if (matrix[r][c] == '|') {
+     * rotated[c][rows - 1 - r] = '-';
+     * } else {
+     * rotated[c][rows - 1 - r] = matrix[r][c];
+     * }
+     * }
+     * }
+     * return rotated;
+     * }
+     */
 
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-
-                if (matrix[r][c] == '-') {
-                    rotated[c][rows - 1 - r] = '|';
-                } else if (matrix[r][c] == '|') {
-                    rotated[c][rows - 1 - r] = '-';
-                } else {
-                    rotated[c][rows - 1 - r] = matrix[r][c];
-                }
-            }
-        }
-        return rotated;
-    }*/
-
-    
-    public ArrayList<Node> convertToPaper() {
+    public ArrayList<Node> convertToPaper(String path) {
         ArrayList<Node> pieces = new ArrayList<>();
         if (!isComplete(this.root))
             return null;
@@ -170,8 +163,8 @@ public class BinaryTreeModel {
             convertToPaper(root, pieces);
         }
         char[][] rec = R.drawing(getRoot());
-        FileOperations F=new FileOperations();
-        F.print2DArrayToFile(rec,path);
+        FileOperations F = new FileOperations();
+        F.print2DArrayToFile(rec, path);
         return pieces;
     }
 
@@ -208,7 +201,7 @@ public class BinaryTreeModel {
         }
     }
 
-    //calculate the maximum level in the tree:
+    // calculate the maximum level in the tree:
     public void calcMaxLevel(int curLevel, Node curNode) {
         maxLevel = Math.max(curLevel, maxLevel);
         if (curNode.getValue() == '|' || curNode.getValue() == '-') {
@@ -224,7 +217,8 @@ public class BinaryTreeModel {
     }
 
     public Node buildTree(char[][] rectangle, int startX, int startY, int endX, int endY) {
-        if (startX > endX || startY > endY) return null;
+        if (startX > endX || startY > endY)
+            return null;
 
         // Search for '-' to split horizontally or '|' to split vertically
         int EX = findRowDivider(rectangle, startX, startY, endX, endY);
