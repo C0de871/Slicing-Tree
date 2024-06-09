@@ -6,6 +6,26 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Paper extends JFrame {
+
+        String name;
+        int length;
+        int width;
+
+        public Paper(String name, int length, int width) {
+            this.name = name;
+            this.length = length;
+            this.width = width;
+        }
+
+        @Override
+        public String toString() {
+            return "Paper{" +
+                    "name='" + name + '\'' +
+                    ", length=" + length +
+                    ", width=" + width +
+                    '}';
+        }
+
     public Paper(ArrayList<Node> pieces){
         setTitle("Paper");
         Border border=BorderFactory.createLineBorder(new Color(0x01B1717),2);
