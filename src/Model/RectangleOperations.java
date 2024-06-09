@@ -54,7 +54,7 @@ public class RectangleOperations {
     public char[][] drawing(Node root) {
         calculateDimensions(root);
         int width = root.getWidth();
-        int height = root.getHeight();
+        int height = root.getHeight();  
         char[][] canvas = new char[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

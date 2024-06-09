@@ -57,7 +57,8 @@ public class StringPageController {
             StaticMethods.showMassage("why you don't choose a vaild file bro!", frame, Type.WARNING);
             return;
         }
-        ArrayList<Node> response = model.convertToPaper(filePath);
+        model.setPath(filePath);
+        ArrayList<Node> response = model.convertToPaper();
         if (response == null) {
             StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
         } else if (response.isEmpty()) {

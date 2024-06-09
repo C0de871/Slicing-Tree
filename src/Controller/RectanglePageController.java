@@ -14,6 +14,7 @@ import javaswingdev.Notification.Type;
 
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 
 public class RectanglePageController {
 
@@ -34,11 +35,19 @@ public class RectanglePageController {
         this.textView = textView;
         this.treeView = treeView;
         rectangleView.addBackButtonActionListener(e -> backToMainMenu());
-        rectangleView.addConvertersActionListener(e -> rectangleToTree(), e -> rectangleToString());
+        rectangleView.addConvertersActionListener(e -> rectangleToTree(), e -> rectangleToText());
         rectangleView.addResetButtonActionListener(e -> reset());
+        rectangleView.addRotateButtonActionListener(e -> rotate());
     }
 
-    private void rectangleToString() {
+    private void rotate() {
+        model.rotateRecangel();
+        ArrayList<Node> paper = model.convertToPaper();
+        this.reset();
+        rectangleView.addRectangles(paper);
+    }
+
+    private void rectangleToText() {
 
     }
 
@@ -61,6 +70,7 @@ public class RectanglePageController {
     }
 
     private void backToMainMenu() {
+
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
     }
 

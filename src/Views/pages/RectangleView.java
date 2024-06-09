@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import Controller.ColorController;
+import Controller.FontController;
 import Model.Node;
 import Views.Components.StaticMethods;
 import Views.Components.TextFieldNode;
@@ -24,6 +25,7 @@ public class RectangleView extends JPanel {
     Button rectangleToTextButton;
     Button backButton;
     Button resetButton;
+    Button rotateButton;
 
     public RectangleView() {
         this.setBackground(ColorController.MainMenuColor);
@@ -34,10 +36,26 @@ public class RectangleView extends JPanel {
         rectangleToTextButton = new Button();
         backButton = new Button();
         resetButton = new Button();
+        rotateButton = new Button();
 
+        //rotate Button decoration:
+        rotateButton.setBounds(1120, 680, 100, 70);
+        rotateButton.setBackground(ColorController.resetButtonBackground);
+        rotateButton.setForeground(ColorController.selectButtonForgroundColor);
+        rotateButton.setRippleColor(new java.awt.Color(255, 255, 255));
+        rotateButton.setShadowColor(new java.awt.Color(29, 162, 253));
+        rotateButton.setFont(FontController.instructionLabelFont);
+        rotateButton.setText("Rotate");
+        rotateButton.setRound(50);
+        rotateButton.setFocusable(false);
+        
         // Buttons Decoration:
-        StaticMethods.createButtons(rectangleToTreeButton, rectangleToTextButton, backButton,resetButton, "Rec To Tree",
-                "Rec to Text", this);
+        StaticMethods.createButtons(rectangleToTreeButton, rectangleToTextButton, backButton, resetButton,
+        "Rec To Tree",
+        "Rec to Text", this);
+
+        //add:
+        this.add(rotateButton);
     }
 
     // add rectangle:
@@ -64,6 +82,11 @@ public class RectangleView extends JPanel {
     // add action listener to the reset button:
     public void addResetButtonActionListener(ActionListener actionListener) {
         resetButton.addActionListener(actionListener);
+    }
+
+    // add action listener to the reset button:
+    public void addRotateButtonActionListener(ActionListener actionListener) {
+        rotateButton.addActionListener(actionListener);
     }
 
     // add action listener to the converter Buttons:
