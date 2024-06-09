@@ -45,7 +45,7 @@ public class MainController {
         this.treePageController = new TreePageController(model, treeView, rectangleView, textView, frame);
         this.stringPageController = new StringPageController(model, treeView, rectangleView, textView, frame);
         this.leavesCheckController = new LeavesCheckController(model, leavesCheckView, frame);
-        this.rectanglePageController = new RectanglePageController(model, rectangleView,textView, frame);
+        this.rectanglePageController = new RectanglePageController(model, rectangleView,textView,treeView,frame);
 
         // setUp frame:
         frame.setTitle("Slicing Floor Tree");
