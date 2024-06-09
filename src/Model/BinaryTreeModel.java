@@ -1,6 +1,5 @@
 package Model;
 
-
 import java.io.IOException;
 import java.util.*;
 
@@ -8,6 +7,10 @@ public class BinaryTreeModel {
     private Node root;
     private int maxLevel = 0;
     private String path;
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public int getMaxLevel() {
         return maxLevel;
@@ -103,35 +106,39 @@ public class BinaryTreeModel {
         }
     }
 
-    private StringBuilder fromRecToText(String path) {
+    public String fromRecToText() {
         drawTreeFromRec();
         StringBuilder Text = new StringBuilder();
         inorderRec(this.root, Text, true);
-        return Text;
+        return Text.toString();
     }
 
-    public void rotateTree() {
+    public void rotateRecangel() {
         if (root != null) {
-            transposeNode(root);
+            rotateProccing(root);
         }
     }
 
-    private void transposeNode(Node node) {
+    private void rotateProccing(Node node) {
         if (node == null) {
             return;
         }
 
+        int temp = node.getWidth();
+        node.setWidth(node.getHeight());
+        node.setHeight(temp);
         if (node.getValue() == '|') {
             node.setValue('-');
         } else if (node.getValue() == '-') {
             node.setValue('|');
         }
-        int temp = node.getWidth();
-        node.setWidth(node.getHeight());
-        node.setHeight(temp);
-
-        transposeNode(node.getLeft());
-        transposeNode(node.getRight());
+        rotateProccing(node.getLeft());
+        rotateProccing(node.getRight());
+        if (node.getValue() == '|') {
+            Node tempNode = node.getRight();
+            node.setRight(node.getLeft());
+            node.setLeft(tempNode);
+        }
     }
 
     // function to Rotate the rectangle
@@ -157,7 +164,7 @@ public class BinaryTreeModel {
      * }
      */
 
-    public ArrayList<Node> convertToPaper(String path) {
+    public ArrayList<Node> convertToPaper() {
         ArrayList<Node> pieces = new ArrayList<>();
         if (!isComplete(this.root))
             return null;
@@ -170,7 +177,6 @@ public class BinaryTreeModel {
         char[][] rec = R.drawing(getRoot());
         FileOperations F = new FileOperations();
         F.print2DArrayToFile(rec, path);
-        this.path = path;
         return pieces;
     }
 
@@ -270,5 +276,19 @@ public class BinaryTreeModel {
             }
         }
         return -1;
+    }
+
+    //check if valid tree:
+    public ArrayList<Node> isValidTree() {
+        ArrayList<Node> pieces = new ArrayList<>();
+        if (!isComplete(this.root))
+            return null;
+        StringBuilder result = new StringBuilder();
+        inorderRec(this.root, result, true);
+        RectangleOperations R = new RectangleOperations();
+        if (R.canFormRectangle(result.toString())) {
+            convertToPaper(root, pieces);
+        }
+        return pieces;
     }
 }
