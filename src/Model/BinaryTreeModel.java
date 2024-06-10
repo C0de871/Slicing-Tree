@@ -38,10 +38,12 @@ public class BinaryTreeModel {
         return (isComplete(node.getLeft()) && (isComplete(node.getRight())));
 
     }
-public boolean CanFormRec(List<Paper> papers){
-        RectanglePacker R=new RectanglePacker();
+
+    public boolean CanFormRec(List<Paper> papers) {
+        RectanglePacker R = new RectanglePacker();
         return R.canFormRectangle(papers);
-}
+    }
+
     public void inorderRec(Node node, StringBuilder result, boolean isRoot) {
         if (node != null) {
             boolean needParentheses = node.getLeft() != null || node.getRight() != null;
@@ -258,14 +260,14 @@ public boolean CanFormRec(List<Paper> papers){
                 if (Character.isLetter(rectangle[r][c])) {
                     int width = endY - startY + 2;
                     int height = endX - startX + 2;
-                    //System.out.println("Node: " + rectangle[r][c] + ", Width: " + width + ", Height: " + height);
+                    // System.out.println("Node: " + rectangle[r][c] + ", Width: " + width + ",
+                    // Height: " + height);
                     return new Node(rectangle[r][c], width, height);
                 }
             }
         }
         return new Node(rectangle[startX][startY]);
     }
-
 
     private int findDivider(char[][] rectangle, int startX, int startY, int endX, int endY, boolean isRow) {
         for (int i = (isRow ? startX : startY); i <= (isRow ? endX : endY); i++) {
@@ -284,8 +286,7 @@ public boolean CanFormRec(List<Paper> papers){
         return -1;
     }
 
-
-    //check if valid tree:
+    // check if valid tree:
     public ArrayList<Node> isValidTree() {
         ArrayList<Node> pieces = new ArrayList<>();
         if (!isComplete(this.root))

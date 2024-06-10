@@ -48,7 +48,7 @@ public class MainController {
         this.rectanglePageController = new RectanglePageController(model, rectangleView,textView,treeView,frame);
 
         // setUp frame:
-        frame.setTitle("Slicing Floor Tree");
+        frame.setTitle("Slicing Tree Floor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1500, 800);
         frame.setLocationRelativeTo(null);
