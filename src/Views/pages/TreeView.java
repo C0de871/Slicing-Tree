@@ -1,6 +1,8 @@
 package Views.pages;
 
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
@@ -24,6 +26,7 @@ public class TreeView extends JPanel {
     public TreeView() {
         this.setBackground(ColorController.MainMenuColor);
         this.setLayout(null);
+        this.setPreferredSize(new Dimension(5000, 5000));
 
         // init components:
         treeToRectangleButton = new Button();
@@ -32,15 +35,14 @@ public class TreeView extends JPanel {
         resetButton = new Button();
         textRoot = new TextFieldNode(750, 70, 50, 50, 50);
 
-        
-        //Buttons Decoration:
-        StaticMethods.createButtons(treeToRectangleButton,treeToTextButton,backButton,resetButton,"Tree to Rec", "Tree to String", this);
+        // Buttons Decoration:
+        StaticMethods.createButtons(treeToRectangleButton, treeToTextButton, backButton, resetButton, "Tree to Rec",
+                "Tree to String", this);
 
         // add:
         add(textRoot);
 
     }
-
     // add action listener to the back button:
     public void addBackButtonActionListener(ActionListener actionListener) {
         backButton.addActionListener(actionListener);
@@ -57,7 +59,7 @@ public class TreeView extends JPanel {
         treeToTextButton.addActionListener(treeToTextListener);
     }
 
-    public static void resetRoot(){
+    public static void resetRoot() {
         textRoot = new TextFieldNode(750, 70, 50, 50, 50);
     }
 }

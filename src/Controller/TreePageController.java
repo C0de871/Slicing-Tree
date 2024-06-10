@@ -88,7 +88,7 @@ public class TreePageController {
             StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
         } else {
             StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
-            rectangleView.addRectangles(response);
+            rectangleView.addRectangles(response,model.getRoot());
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
         }
 

@@ -3,6 +3,7 @@ package Controller;
 import java.awt.CardLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import Model.BinaryTreeModel;
 import Views.pages.LeavesCheckView;
@@ -30,6 +31,7 @@ public class MainController {
     private RectangleView rectangleView;
     @SuppressWarnings("unused")
     private RectanglePageController rectanglePageController;
+    private TreeView treeView;
 
     // constructor:
     public MainController(BinaryTreeModel model, MainMenuView mainMenuPanel, TreeView treeView, TextView textView,
@@ -39,13 +41,16 @@ public class MainController {
         this.frame = new JFrame("Slicing Tree");
         this.model = model;
         this.mainMenuPanel = mainMenuPanel;
-        this.mainMenuPanel = mainMenuPanel;
+        this.treeView = treeView;
         this.leavesCheckView = leavesCheckView;
         this.rectangleView = rectangleView;
         this.treePageController = new TreePageController(model, treeView, rectangleView, textView, frame);
         this.stringPageController = new StringPageController(model, treeView, rectangleView, textView, frame);
         this.leavesCheckController = new LeavesCheckController(model, leavesCheckView, frame);
         this.rectanglePageController = new RectanglePageController(model, rectangleView,textView,treeView,frame);
+
+        //add scrolling to tree view:
+        JScrollPane scrollPane =  new JScrollPane(treeView);
 
         // setUp frame:
         frame.setTitle("Slicing Tree Floor");
@@ -57,7 +62,7 @@ public class MainController {
 
         // add panel to frame:
         frame.getContentPane().add(mainMenuPanel, "MainMenu");
-        frame.getContentPane().add(treeView, "Tree");
+        frame.getContentPane().add(scrollPane, "Tree");
         frame.getContentPane().add(textView, "Text");
         frame.getContentPane().add(rectangleView, "Rectangle");
         frame.getContentPane().add(leavesCheckView, "Check");

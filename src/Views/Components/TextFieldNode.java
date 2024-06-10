@@ -66,7 +66,8 @@ public class TextFieldNode extends TextField {
         animatedEdgePanel.edgeAnimated(new AnimationCompleteListener() {
             @Override
             public void onAnimationComplete() {
-                System.out.println("Done");
+                curContainer.revalidate();
+                curContainer.repaint();
             }
         });
         return animatedEdgePanel;
