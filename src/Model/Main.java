@@ -1,5 +1,7 @@
 package Model;
 
+import java.io.IOException;
+
 import javax.swing.SwingUtilities;
 
 import Controller.MainController;
@@ -8,8 +10,6 @@ import Views.pages.MainMenuView;
 import Views.pages.RectangleView;
 import Views.pages.TextView;
 import Views.pages.TreeView;
-
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {

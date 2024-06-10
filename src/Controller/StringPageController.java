@@ -1,26 +1,18 @@
 package Controller;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import Model.BinaryTreeModel;
-import Model.FileOperations;
-import Model.Node;
-import Model.RectangleOperations;
-import Views.Components.AnimationCompleteListener;
-import Views.Components.AnimationMethods;
-import Views.Components.StaticMethods;
-import Views.Components.TextFieldNode;
-import Views.pages.RectangleView;
-import Views.pages.TextView;
-import Views.pages.TreeView;
-import button.Button;
-import javaswingdev.Notification.Type;
-import textfield.TextField;
-
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
+import Model.BinaryTreeModel;
+import Model.Node;
+import Views.Components.StaticMethods;
+import Views.pages.RectangleView;
+import Views.pages.TextView;
+import Views.pages.TreeView;
+import javaswingdev.Notification.Type;
 
 public class StringPageController {
 

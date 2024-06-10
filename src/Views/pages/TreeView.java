@@ -1,14 +1,11 @@
 package Views.pages;
 
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
 import Controller.ColorController;
-import Controller.FontController;
 import Views.Components.StaticMethods;
 import Views.Components.TextFieldNode;
 import button.Button;

@@ -3,7 +3,6 @@ package Views.pages;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -16,7 +15,6 @@ import Controller.ColorController;
 import Controller.FontController;
 import Model.Node;
 import Views.Components.StaticMethods;
-import Views.Components.TextFieldNode;
 import button.Button;
 
 public class RectangleView extends JPanel {
