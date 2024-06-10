@@ -6,23 +6,47 @@ import java.util.List;
 
 public class RectanglePacker {
 
-   // private static String structuredString = "";
+    /*  static String buildRectangleString(List<Paper> papers) {
+          StringBuilder rectangleBuilder = new StringBuilder();
+          buildRectangleStringHelper(papers, rectangleBuilder);
+          return rectangleBuilder.toString();
+      }
 
-    public static boolean canFormRectangle(List<Paper> papers) {
+      private static void buildRectangleStringHelper(List<Paper> papers, StringBuilder rectangleBuilder) {
+          if (papers.size() == 1) {
+              Paper paper = papers.get(0);
+              rectangleBuilder.append("(").append(paper.getName()).append("[").append(paper.getHeight()).append(",").append(paper.getWidth()).append("]");
+          } else {
+              rectangleBuilder.append("(");
+              for (int i = 0; i < papers.size(); i++) {
+                  Paper paper = papers.get(i);
+                  if (i > 0) {
+                      if ((i < papers.size() - 1 && papers.get(i).getWidth() == papers.get(i + 1).getWidth()) ||
+                              (i < papers.size() - 1 && papers.get(i).getHeight() == papers.get(i + 1).getHeight())) {
+                          rectangleBuilder.append("|");
+                      } else {
+                          rectangleBuilder.append("-");
+                      }
+                  }
+                  rectangleBuilder.append(paper.getName()).append("[").append(paper.getHeight()).append(",").append(paper.getWidth()).append("]") ;
+              }
+              rectangleBuilder.append(")");
+          }
+      }  */
+    public boolean canFormRectangle(List<Paper> papers) {
         List<List<Paper>> permutations = new ArrayList<>();
         generatePermutations(papers, 0, permutations);
 
         for (List<Paper> perm : permutations) {
-           // structuredString = ""; // Reset the structured string for each permutation
             if (checkIfRectangle(perm)) {
-              //  structuredString = buildStructuredString(perm); // Build the structured string based on the permutation
+                //System.out.println(buildRectangleString(perm)); // Print the rectangle representation
                 return true;
             }
         }
         return false;
     }
 
-    private static void generatePermutations(List<Paper> papers, int index, List<List<Paper>> permutations) {
+    private void generatePermutations(List<Paper> papers, int index, List<List<Paper>> permutations) {
         if (index == papers.size() - 1) {
             permutations.add(new ArrayList<>(papers));
             return;
@@ -34,15 +58,15 @@ public class RectanglePacker {
         }
     }
 
-    private static boolean checkIfRectangle(List<Paper> papers) {
+    private boolean checkIfRectangle(List<Paper> papers) {
         int totalArea = 0;
         int maxLength = 0;
         int maxWidth = 0;
 
         for (Paper paper : papers) {
-            totalArea += paper.length * paper.width;
-            maxLength = Math.max(maxLength, paper.length);
-            maxWidth = Math.max(maxWidth, paper.width);
+            totalArea += paper.getHeight() * paper.getHeight();
+            maxLength = Math.max(maxLength, paper.getHeight());
+            maxWidth = Math.max(maxWidth, paper.getWidth());
         }
 
         int side1 = maxLength;
@@ -56,11 +80,11 @@ public class RectanglePacker {
         int currentWidth = 0;
 
         for (Paper paper : papers) {
-            if (currentWidth + paper.width <= side2) {
-                currentWidth += paper.width;
+            if (currentWidth + paper.getWidth() <= side2) {
+                currentWidth += paper.getWidth();
             } else {
-                currentLength += paper.length;
-                currentWidth = paper.width;
+                currentLength += paper.getHeight();
+                currentWidth = paper.getWidth();
             }
 
             if (currentLength > side1 || currentWidth > side2) {
@@ -70,44 +94,22 @@ public class RectanglePacker {
 
         return true;
     }
-
-   /* private static String buildStructuredString(List<Paper> papers) {
-        if (papers.isEmpty()) return "";
-
-        StringBuilder result = new StringBuilder();
-        buildStructuredStringRecursive(papers, 0, papers.size() - 1, result, true);
-        return result.toString();
-    }
-
-    private static void buildStructuredStringRecursive(List<Paper> papers, int start, int end, StringBuilder result, boolean isVertical) {
-        if (start == end) {
-            Paper paper = papers.get(start);
-            result.append(paper.name).append("[").append(paper.length).append(",").append(paper.width).append("]");
-            return;
+/*    public   int maxRectangles(List<Paper> papers) {
+        int maxCount = 0;
+        int n = papers.size();
+        for (int i = 1; i < (1 << n); i++) {
+            List<Paper> subset = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) > 0) {
+                    subset.add(papers.get(j));
+                }
+            }
+            if (canFormRectangle(subset)) {
+                maxCount = Math.max(maxCount, subset.size());
+            }
         }
-
-        result.append("(");
-        int mid = (start + end) / 2;
-        buildStructuredStringRecursive(papers, start, mid, result, !isVertical);
-        result.append(isVertical ? '-' : '|');
-        buildStructuredStringRecursive(papers, mid + 1, end, result, !isVertical);
-        result.append(")");
+        return maxCount;
     }*/
 
 
-   /* public static void main(String[] args) {
-        List<Paper> papers = new ArrayList<>();
-        papers.add(new Paper("A", 20, 10));
-        papers.add(new Paper("B", 20, 10));
-        papers.add(new Paper("C", 30, 10));
-        papers.add(new Paper("D", 30, 50));
-        papers.add(new Paper("E", 40, 30));
-        papers.add(new Paper("F", 40, 20));
-        if (canFormRectangle(papers)) {
-            System.out.println("The papers can form a rectangle.");
-           // System.out.println("Structured String: " + structuredString);
-        } else {
-            System.out.println("The papers cannot form a rectangle.");
-        }
-    }*/
 }
