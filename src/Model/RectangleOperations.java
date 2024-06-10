@@ -53,8 +53,8 @@ public class RectangleOperations {
 
     public char[][] drawing(Node root) {
         calculateDimensions(root);
-        int width = root.getWidth();
-        int height = root.getHeight();  
+        int width = root.getWidth()+1;
+        int height = root.getHeight()+1;
         char[][] canvas = new char[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -104,7 +104,6 @@ public class RectangleOperations {
         if (root.getLeft() == null) {
             return;
         }
-
         root.getLeft().setX(root.getX());
         root.getLeft().setY(root.getY());
         root.getRight().setX(root.getX());

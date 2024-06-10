@@ -250,17 +250,20 @@ public class BinaryTreeModel {
             node.setRight(buildTree(rectangle, startX, EY + 1, endX, endY));
             return node;
         }
-        for (int r = startX; r < endX; r++) {
-            for (int c = startY; c < endY; c++) {
+        for (int r = startX; r <= endX; r++) {
+            for (int c = startY; c <= endY; c++) {
                 if (Character.isLetter(rectangle[r][c])) {
                     int width = endY - startY + 2;
                     int height = endX - startX + 2;
+                    //System.out.println("Node: " + rectangle[r][c] + ", Width: " + width + ", Height: " + height);
                     return new Node(rectangle[r][c], width, height);
                 }
             }
         }
         return new Node(rectangle[startX][startY]);
     }
+
+
     private int findDivider(char[][] rectangle, int startX, int startY, int endX, int endY, boolean isRow) {
         for (int i = (isRow ? startX : startY); i <= (isRow ? endX : endY); i++) {
             boolean hasDivider = true;
@@ -277,6 +280,7 @@ public class BinaryTreeModel {
         }
         return -1;
     }
+
 
     //check if valid tree:
     public ArrayList<Node> isValidTree() {
