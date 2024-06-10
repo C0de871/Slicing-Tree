@@ -8,5 +8,4 @@ public class FontController {
     public static Font animatedStringFont = new Font("Arial", Font.PLAIN, 30);
     public static Font userTextFieldInput = new Font("Arial", Font.BOLD, 24);
     public static Font okButton = new Font("Arial", Font.BOLD, 12);
-
 }

@@ -2,7 +2,6 @@ package Views.pages;
 
 import java.awt.event.ActionListener;
 
-import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 

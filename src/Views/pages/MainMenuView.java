@@ -8,8 +8,8 @@ import javax.swing.SwingConstants;
 
 import Controller.ColorController;
 import Controller.FontController;
-import Views.Components.AnimationMethods;
 import Views.Components.AnimatedStringPanel;
+import Views.Components.AnimationMethods;
 import Views.Components.ChoosePanel;
 import Views.Components.RectanglePanel;
 import button.Button;

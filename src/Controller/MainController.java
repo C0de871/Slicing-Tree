@@ -31,6 +31,7 @@ public class MainController {
     private RectangleView rectangleView;
     @SuppressWarnings("unused")
     private RectanglePageController rectanglePageController;
+    @SuppressWarnings("unused")
     private TreeView treeView;
 
     // constructor:

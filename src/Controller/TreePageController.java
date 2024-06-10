@@ -1,18 +1,12 @@
 package Controller;
 
 import java.awt.CardLayout;
-import java.awt.ScrollPane;
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Model.BinaryTreeModel;
-import Model.FileOperations;
 import Model.Node;
-import Model.RectangleOperations;
 import Views.Components.StaticMethods;
 import Views.Components.TextFieldNode;
 import Views.pages.RectangleView;

@@ -1,20 +1,17 @@
 package Controller;
 
+import java.awt.CardLayout;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 import Model.BinaryTreeModel;
 import Model.Node;
 import Views.Components.StaticMethods;
-import Views.pages.LeavesCheckView;
 import Views.pages.RectangleView;
 import Views.pages.TextView;
 import Views.pages.TreeView;
-import button.Button;
 import javaswingdev.Notification.Type;
-
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.util.ArrayList;
 
 public class RectanglePageController {
 

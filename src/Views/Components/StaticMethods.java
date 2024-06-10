@@ -2,24 +2,22 @@ package Views.Components;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 
 import Controller.ColorController;
 import Controller.FontController;
 import Model.Node;
-import PanelRound.PanelRound;
 import Views.pages.TreeView;
 import button.Button;
 import javaswingdev.Notification;
 import javaswingdev.Notification.Type;
-import textfield.TextField;
 import jnafilechooser.api.JnaFileChooser;
 
 public class StaticMethods {
@@ -164,6 +162,7 @@ public class StaticMethods {
     }
 
     // Method to restrict text field to two digits only
+    @SuppressWarnings("unused")
     private static void restrictToTwoDigits(JTextField textField) {
         PlainDocument doc = (PlainDocument) textField.getDocument();
         doc.setDocumentFilter(new DocumentFilter() {

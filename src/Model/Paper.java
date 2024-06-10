@@ -1,9 +1,14 @@
 package Model;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 public class Paper extends JFrame {
 
@@ -50,6 +55,7 @@ public class Paper extends JFrame {
     }
     public static Paper parsePaper(String paperStr) {
         String[] parts = paperStr.split("[\\[\\],]");
+        @SuppressWarnings("unused")
         String name = parts[0];
         int width = Integer.parseInt(parts[1].trim());
         int height = Integer.parseInt(parts[2].trim());

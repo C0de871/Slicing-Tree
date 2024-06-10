@@ -1,6 +1,7 @@
 package Views.Components;
 
 import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
 
 import Controller.ColorController;

@@ -100,7 +100,7 @@ public class RectanglePacker {
         for (int i = 1; i < (1 << n); i++) {
             List<Paper> subset = new ArrayList<>();
             for (int j = 0; j < n; j++) {
-                if ((i & (1 << j)) > 0) {
+                if ((i & (1 << j)) > 0) {   
                     subset.add(papers.get(j));
                 }
             }

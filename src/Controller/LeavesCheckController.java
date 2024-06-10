@@ -1,19 +1,18 @@
 package Controller;
 
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import Model.BinaryTreeModel;
 import Model.Paper;
 import Views.Components.StaticMethods;
 import Views.pages.LeavesCheckView;
 import javaswingdev.Notification.Type;
-
-import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class LeavesCheckController {
 
