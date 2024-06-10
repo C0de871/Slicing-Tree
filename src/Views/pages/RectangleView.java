@@ -59,12 +59,17 @@ public class RectangleView extends JPanel {
     }
 
     // add rectangle:
-    public void addRectangles(ArrayList<Node> pieces) {
+    public void addRectangles(ArrayList<Node> pieces,Node root) {
+        //1500,800
         Border border = BorderFactory.createLineBorder(new Color(0x01B1717), 2);
+        int width = root.getWidth()*5;
+        int height = root.getHeight()*5;    
         for (Node p : pieces) {
             JLabel l = new JLabel("", SwingConstants.CENTER);
             l.setText(String.valueOf(p.getValue()));
-            l.setBounds(300 + p.getX() * 3, 200 + p.getY() * 3, p.getWidth() * 3, p.getHeight() * 3);
+            System.out.println(p.getX());
+            System.out.println(p.getY());
+            l.setBounds(((1500/2)-(width/2)) + p.getX()*5, ((800/2)-(height/2))+ p.getY()*5, p.getWidth() * 5, p.getHeight() * 5);
             l.setBackground(Color.white);
             l.setOpaque(true);
             l.setForeground(new Color(0x01B1717));

@@ -44,7 +44,7 @@ public class RectanglePageController {
         model.rotateRecangel();
         ArrayList<Node> paper = model.convertToPaper();
         this.reset();
-        rectangleView.addRectangles(paper);
+        rectangleView.addRectangles(paper,model.getRoot());
     }
 
     private void rectangleToText() {
