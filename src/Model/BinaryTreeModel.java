@@ -38,7 +38,10 @@ public class BinaryTreeModel {
         return (isComplete(node.getLeft()) && (isComplete(node.getRight())));
 
     }
-
+public boolean CanFormRec(List<Paper> papers){
+        RectanglePacker R=new RectanglePacker();
+        return R.canFormRectangle(papers);
+}
     public void inorderRec(Node node, StringBuilder result, boolean isRoot) {
         if (node != null) {
             boolean needParentheses = node.getLeft() != null || node.getRight() != null;

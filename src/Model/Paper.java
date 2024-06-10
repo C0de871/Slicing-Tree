@@ -7,16 +7,54 @@ import java.util.ArrayList;
 
 public class Paper extends JFrame {
 
-        String name;
-        int length;
-        int width;
+        private String name;
+        private int height;
+        private int width;
 
         public Paper(String name, int length, int width) {
             this.name = name;
-            this.length = length;
+            this.height = length;
             this.width = width;
         }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int length) {
+        this.height = length;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public Paper(int length, int width) {
+        this.height = length;
+        this.width = width;
+    }
+    public static Paper parsePaper(String paperStr) {
+        String[] parts = paperStr.split("[\\[\\],]");
+        String name = parts[0];
+        int width = Integer.parseInt(parts[1].trim());
+        int height = Integer.parseInt(parts[2].trim());
+        return new Paper(width, height);
+    }
 
     public Paper(ArrayList<Node> pieces){
         setTitle("Paper");
