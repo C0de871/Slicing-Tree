@@ -1,19 +1,11 @@
 package Views.pages;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 import Controller.ColorController;
 import Controller.FontController;
-import Model.Node;
 import Views.Components.StaticMethods;
 import button.Button;
 

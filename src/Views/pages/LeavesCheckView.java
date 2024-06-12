@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import Controller.ColorController;
 import Controller.FontController;
 import button.Button;
-import textfield.TextField;
 
 public class LeavesCheckView extends JPanel {
 
