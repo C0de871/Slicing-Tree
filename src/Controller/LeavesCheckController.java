@@ -4,15 +4,12 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import Model.BinaryTreeModel;
 import Model.Node;
-import Model.Paper;
 import Views.Components.StaticMethods;
 import Views.pages.LeavesCheckView;
 import javaswingdev.Notification.Type;
@@ -47,10 +44,10 @@ public class LeavesCheckController {
         curRecInd--;
         ArrayList<Node> oneRectangle = model.checkViewConvertToPaper(response.get(curRecInd));
         StaticMethods.addRectangles(oneRectangle, response.get(curRecInd), leavesCheckView);
-        int newX = (1500 / 2) - (response.get(curRecInd).getWidth() / 2) - 170;
+        int newX = (1500 / 2) - (response.get(curRecInd).getWidth() / 2) - 300;
         int newY = (800 / 2) - 35;
         leavesCheckView.setBoundsGoLeft(newX, newY);
-        newX = (1500 / 2) + (response.get(curRecInd).getWidth() / 2) + 100;
+        newX = (1500 / 2) + (response.get(curRecInd).getWidth() / 2) + 230;
         newY = (800 / 2) - 35;
         leavesCheckView.setBoundsGoRight(newX, newY);
     }
@@ -64,10 +61,10 @@ public class LeavesCheckController {
         curRecInd++;
         ArrayList<Node> oneRectangle = model.checkViewConvertToPaper(response.get(curRecInd));
         StaticMethods.addRectangles(oneRectangle, response.get(curRecInd), leavesCheckView);
-        int newX = (1500 / 2) - (response.get(curRecInd).getWidth() / 2) - 170;
+        int newX = (1500 / 2) - (response.get(curRecInd).getWidth() / 2) - 300;
         int newY = (800 / 2) - 35;
         leavesCheckView.setBoundsGoLeft(newX, newY);
-        newX = (1500 / 2) + (response.get(curRecInd).getWidth() / 2) + 100;
+        newX = (1500 / 2) + (response.get(curRecInd).getWidth() / 2) + 230;
         newY = (800 / 2) - 35;
         leavesCheckView.setBoundsGoRight(newX, newY);
     }
