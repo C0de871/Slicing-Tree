@@ -1,6 +1,6 @@
 # Slicing Tree
 Java application to represent slicing floor as tree.<br>
-This project is for Algorithm 2 course in our univercity.
+This project is for Algorithm 2 course in our university.
 ## Installation
 
 Clone the github repo to your local machine.
