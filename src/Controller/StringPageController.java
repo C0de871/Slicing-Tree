@@ -37,7 +37,7 @@ public class StringPageController {
     }
 
     private void textToRectangle() {
-        StaticMethods.resetPanel(rectangleView);
+        StaticMethods.resetPanelButtons(rectangleView);
         String text = textView.getText();
         model.export(text);
         if (model.getRoot() == null) {
@@ -50,14 +50,14 @@ public class StringPageController {
             return;
         }
         model.setPath(filePath);
-        ArrayList<Node> response = model.convertToPaper();
+        ArrayList<Node> response = model.convertToPaper(model.getRoot());
         if (response == null) {
             StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
         } else if (response.isEmpty()) {
             StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
         } else {
             StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
-            rectangleView.addRectangles(response,model.getRoot());
+            StaticMethods.addRectangles(response,model.getRoot(),rectangleView);
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
         }
 
@@ -65,7 +65,7 @@ public class StringPageController {
 
     // convert the String to tree:
     private void textToTree(ActionEvent e) {
-        StaticMethods.resetPanel(treeView);
+        StaticMethods.resetPanelButtons(treeView);
         String text = textView.getText();
         model.export(text);
         if (model.getRoot() == null) {
@@ -73,7 +73,7 @@ public class StringPageController {
         } else {
             StaticMethods.showMassage("Tree planted succefuly:)", frame, Type.SUCCESS);
             model.calcMaxLevel(1, model.getRoot());
-            StaticMethods.resetPanel(treeView);
+            StaticMethods.resetPanelButtons(treeView);
             TreeView.resetRoot();
             treeView.add(TreeView.textRoot);
             TreeView.textRoot.setBranchValue((int) (Math.pow(2, Math.max(0, model.getMaxLevel() - 3)) * 50));

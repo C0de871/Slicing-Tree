@@ -1,11 +1,19 @@
 package Views.Components;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.io.File;
+import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
@@ -131,10 +139,21 @@ public class StaticMethods {
         panal.add(resetButton);
     }
 
-    // reset the container
-    public static void resetPanel(Container c) {
+    // reset the container buttons:
+    public static void resetPanelButtons(Container c) {
         for (Component comp : c.getComponents()) {
             if (!(comp instanceof Button)) {
+                c.remove(comp);
+            }
+        }
+        c.revalidate();
+        c.repaint();
+    }
+
+    // reset the container Lable:
+    public static void resetPanelLable(Container c) {
+        for (Component comp : c.getComponents()) {
+            if ((comp instanceof JLabel)) {
                 c.remove(comp);
             }
         }
@@ -195,5 +214,27 @@ public class StaticMethods {
     // Utility method to check if a string is numeric
     private static boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    // add rectangle:
+    public static void addRectangles(ArrayList<Node> pieces,Node root,JPanel panel) {
+        //1500,800
+        StaticMethods.resetPanelLable(panel);
+        Border border = BorderFactory.createLineBorder(new Color(0x01B1717), 2);
+        int width = root.getWidth()*5;
+        int height = root.getHeight()*5;    
+        for (Node p : pieces) {
+            JLabel l = new JLabel("", SwingConstants.CENTER);
+            l.setText(String.valueOf(p.getValue()));
+            System.out.println(p.getX());
+            System.out.println(p.getY());
+            l.setBounds(((1500/2)-(width/2)) + p.getX()*5, ((800/2)-(height/2))+ p.getY()*5, p.getWidth() * 5, p.getHeight() * 5);
+            l.setBackground(Color.white);
+            l.setOpaque(true);
+            l.setForeground(new Color(0x01B1717));
+            l.setFont(new Font("Serif", Font.BOLD, 16));
+            l.setBorder(border);
+            panel.add(l);
+        }
     }
 }

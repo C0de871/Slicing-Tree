@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JDialog;
@@ -23,6 +24,8 @@ public class LeavesCheckController {
     private BinaryTreeModel model;
     LeavesCheckView leavesCheckView;
     JFrame frame;
+    ArrayList<Node> response = new ArrayList<>();
+    int curRecInd = 0;
 
     // constructor:
     public LeavesCheckController(BinaryTreeModel model, LeavesCheckView leavesCheckView, JFrame frame) {
@@ -31,9 +34,43 @@ public class LeavesCheckController {
         this.leavesCheckView = leavesCheckView;
         leavesCheckView.addBackButtonActionListener(e -> backToMainMenu());
         leavesCheckView.addEnterLeavesButtonListener(e -> add());
-
+        leavesCheckView.addGoLeftActionListener(e -> goLeft());
+        leavesCheckView.addGoRightButtonActionListener(e -> goRight());
     }
 
+    // go to the previous rectangle:
+    private void goLeft() {
+        curRecInd--;
+        if (curRecInd == -1) {
+            curRecInd = response.size() - 1;
+        }
+        ArrayList<Node> oneRectangle = model.checkViewConvertToPaper(response.get(curRecInd));
+        StaticMethods.addRectangles(oneRectangle, response.get(curRecInd), leavesCheckView);
+        int newX= (1500/2)-(response.get(curRecInd).getWidth()/2)-170;
+        int newY= (800/2)-(response.get(curRecInd).getHeight()/2);
+        leavesCheckView.setBoundsGoLeft(newX,newY);
+        newX = (1500/2)+(response.get(curRecInd).getWidth()/2)+100;
+        newY= (800/2)-(response.get(curRecInd).getHeight()/2);
+        leavesCheckView.setBoundsGoRight(newX,newY);
+    }
+
+    // go to the next rectangle:
+    private void goRight() {
+        curRecInd++;
+        if (curRecInd == response.size()) {
+            curRecInd = 0;
+        }
+        ArrayList<Node> oneRectangle = model.checkViewConvertToPaper(response.get(curRecInd));
+        StaticMethods.addRectangles(oneRectangle, response.get(curRecInd), leavesCheckView);
+        int newX= (1500/2)-(response.get(curRecInd).getWidth()/2)-170;
+        int newY= (800/2)-(response.get(curRecInd).getHeight()/2);
+        leavesCheckView.setBoundsGoLeft(newX,newY);
+        newX = (1500/2)+(response.get(curRecInd).getWidth()/2)+100;
+        newY= (800/2)-(response.get(curRecInd).getHeight()/2);
+        leavesCheckView.setBoundsGoRight(newX,newY);
+    }
+
+    // add nodes:
     private void add() {
         ArrayList<Node> papers = new ArrayList<>();
         JDialog enterInfoDialog = leavesCheckView.createEnterInfoDialog(
@@ -44,7 +81,7 @@ public class LeavesCheckController {
                         String name = (String) data[0];
                         String widthText = (String) data[1];
                         String heightText = (String) data[2];
-                        if (name.matches("[A-Z]")&& !widthText.isEmpty() && !heightText.isEmpty()) {
+                        if (name.matches("[A-Z]") && !widthText.isEmpty() && !heightText.isEmpty()) {
                             try {
                                 double width = Double.parseDouble(widthText);
                                 double height = Double.parseDouble(heightText);
@@ -62,9 +99,12 @@ public class LeavesCheckController {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (papers.size() != 0) {
-                            Set<Node> response = model.FormRectangles(papers);
-                            if (response.size()!=0) {
+                            response = model.FormRectangles(papers);
+                            if (response.size() != 0) {
                                 StaticMethods.showMassage("Can form Rectangle yeah :)", frame, Type.SUCCESS);
+                                leavesCheckView.setGoButtonsVisiblity(true);
+                                curRecInd=-1;
+                                goRight();
                                 return;
                             }
                             StaticMethods.showMassage("Can not form Rectangle oh no :<", frame, Type.WARNING);
@@ -78,6 +118,7 @@ public class LeavesCheckController {
         enterInfoDialog.setVisible(true);
     }
 
+    // back to main menu
     private void backToMainMenu() {
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "MainMenu");
     }
