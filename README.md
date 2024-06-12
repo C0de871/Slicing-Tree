@@ -16,5 +16,5 @@ Or run the source code using your IDE 😊😊.
 
 ## Note
 
-make sure you hava java JRE -Java run time- 20 or later
+make sure you hava java JRE -Java run time- 1.8 or later
 
