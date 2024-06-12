@@ -60,7 +60,7 @@ public class LeavesCheckController {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (papers.size() != 0) {
-                            boolean response = model.CanFormRec(papers);
+                            boolean response = model.FormRectangles(papers);
                             if (response) {
                                 StaticMethods.showMassage("Can form Rectangle yeah :)", frame, Type.SUCCESS);
                                 return;

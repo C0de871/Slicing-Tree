@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Node {
     private char value;
     private Integer width, height,x,y;
@@ -110,5 +112,23 @@ public class Node {
 
     public void setY(Integer y) {
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return isHorizontal == node.isHorizontal &&
+                Objects.equals(value, node.value) &&
+                Objects.equals(width, node.width) &&
+                Objects.equals(height, node.height) &&
+                Objects.equals(left, node.left) &&
+                Objects.equals(right, node.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, width, height, left, right, isHorizontal);
     }
 }

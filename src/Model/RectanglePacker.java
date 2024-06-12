@@ -1,115 +1,67 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class RectanglePacker {
+    private List<Node> roots;
 
-    /*  static String buildRectangleString(List<Paper> papers) {
-          StringBuilder rectangleBuilder = new StringBuilder();
-          buildRectangleStringHelper(papers, rectangleBuilder);
-          return rectangleBuilder.toString();
-      }
+    public RectanglePacker() {
+        roots = new ArrayList<>();
+    }
 
-      private static void buildRectangleStringHelper(List<Paper> papers, StringBuilder rectangleBuilder) {
-          if (papers.size() == 1) {
-              Paper paper = papers.get(0);
-              rectangleBuilder.append("(").append(paper.getName()).append("[").append(paper.getHeight()).append(",").append(paper.getWidth()).append("]");
-          } else {
-              rectangleBuilder.append("(");
-              for (int i = 0; i < papers.size(); i++) {
-                  Paper paper = papers.get(i);
-                  if (i > 0) {
-                      if ((i < papers.size() - 1 && papers.get(i).getWidth() == papers.get(i + 1).getWidth()) ||
-                              (i < papers.size() - 1 && papers.get(i).getHeight() == papers.get(i + 1).getHeight())) {
-                          rectangleBuilder.append("|");
-                      } else {
-                          rectangleBuilder.append("-");
-                      }
-                  }
-                  rectangleBuilder.append(paper.getName()).append("[").append(paper.getHeight()).append(",").append(paper.getWidth()).append("]") ;
-              }
-              rectangleBuilder.append(")");
-          }
-      }  */
-    public boolean canFormRectangle(List<Paper> papers) {
-        List<List<Paper>> permutations = new ArrayList<>();
-        generatePermutations(papers, 0, permutations);
+    public List<Node> getRoots() {
+        return roots;
+    }
 
-        for (List<Paper> perm : permutations) {
-            if (checkIfRectangle(perm)) {
-                //System.out.println(buildRectangleString(perm)); // Print the rectangle representation
-                return true;
+    public boolean formingRectangles(List<Node> papers) {
+        if (papers.size() == 1) {
+            Node root = papers.get(0);
+            roots.add(root);
+            return true;
+        }
+        Set<Node> seenPapers = new HashSet<>(papers);
+
+        for (int i = 0; i < papers.size(); i++) {
+            for (int j = i + 1; j < papers.size(); j++) {
+                Node paper1 = papers.get(i);
+                Node paper2 = papers.get(j);
+
+                if (paper1.getHeight().equals(paper2.getHeight())) {
+                    Node combined = new Node('|', paper1.getWidth() + paper2.getWidth(), paper1.getHeight());
+                    combined.setLeft(paper1);
+                    combined.setRight(paper2);
+                    combined.setHorizontal(false);
+                    tryFormingRectangle(papers, seenPapers, i, j, combined);
+
+                }
+                if (paper1.getWidth().equals(paper2.getWidth())) {
+                    Node combined = new Node('-', paper1.getWidth(), paper1.getHeight() + paper2.getHeight());
+                    combined.setLeft(paper1);
+                    combined.setRight(paper2);
+                    combined.setHorizontal(true);
+                    if (tryFormingRectangle(papers, seenPapers, i, j, combined)) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
     }
-
-    private void generatePermutations(List<Paper> papers, int index, List<List<Paper>> permutations) {
-        if (index == papers.size() - 1) {
-            permutations.add(new ArrayList<>(papers));
-            return;
+    private boolean tryFormingRectangle(List<Node> papers, Set<Node> seenPapers, int index1, int index2, Node combined) {
+        List<Node> newPapersList = new ArrayList<>();
+        newPapersList.add(combined);
+        for (int k = 0; k < papers.size(); k++) {
+            if (k != index1 && k != index2) {
+                newPapersList.add(papers.get(k));
+            }
         }
-        for (int i = index; i < papers.size(); i++) {
-            Collections.swap(papers, i, index);
-            generatePermutations(papers, index + 1, permutations);
-            Collections.swap(papers, i, index);
+        if (!seenPapers.contains(combined)) {
+            seenPapers.add(combined);
+            return formingRectangles(newPapersList);
         }
+        return false;
     }
-
-    private boolean checkIfRectangle(List<Paper> papers) {
-        int totalArea = 0;
-        int maxLength = 0;
-        int maxWidth = 0;
-
-        for (Paper paper : papers) {
-            totalArea += paper.getHeight() * paper.getHeight();
-            maxLength = Math.max(maxLength, paper.getHeight());
-            maxWidth = Math.max(maxWidth, paper.getWidth());
-        }
-
-        int side1 = maxLength;
-        int side2 = totalArea / side1;
-
-        if (side1 * side2 != totalArea) {
-            return false;
-        }
-
-        int currentLength = 0;
-        int currentWidth = 0;
-
-        for (Paper paper : papers) {
-            if (currentWidth + paper.getWidth() <= side2) {
-                currentWidth += paper.getWidth();
-            } else {
-                currentLength += paper.getHeight();
-                currentWidth = paper.getWidth();
-            }
-
-            if (currentLength > side1 || currentWidth > side2) {
-                return false;
-            }
-        }
-
-        return true;
+    public Set<Node> getUniqueTrees() {
+        return new HashSet<>(roots);
     }
-/*    public   int maxRectangles(List<Paper> papers) {
-        int maxCount = 0;
-        int n = papers.size();
-        for (int i = 1; i < (1 << n); i++) {
-            List<Paper> subset = new ArrayList<>();
-            for (int j = 0; j < n; j++) {
-                if ((i & (1 << j)) > 0) {   
-                    subset.add(papers.get(j));
-                }
-            }
-            if (canFormRectangle(subset)) {
-                maxCount = Math.max(maxCount, subset.size());
-            }
-        }
-        return maxCount;
-    }*/
-
-
 }
