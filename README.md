@@ -14,7 +14,7 @@ or just download the zip folder and extract it
 Just run the jar file which exists in folder named "executable".
 Or run the source code using your IDE 😊😊.
 
-### Note
+## Note
 
 make sure you hava java JRE -Java run time- 20 or later
 
