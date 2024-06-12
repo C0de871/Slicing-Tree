@@ -4,11 +4,13 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import Model.BinaryTreeModel;
+import Model.Node;
 import Model.Paper;
 import Views.Components.StaticMethods;
 import Views.pages.LeavesCheckView;
@@ -33,7 +35,7 @@ public class LeavesCheckController {
     }
 
     private void add() {
-        ArrayList<Paper> papers = new ArrayList<>();
+        ArrayList<Node> papers = new ArrayList<>();
         JDialog enterInfoDialog = leavesCheckView.createEnterInfoDialog(
                 new ActionListener() {
                     @Override
@@ -42,17 +44,17 @@ public class LeavesCheckController {
                         String name = (String) data[0];
                         String widthText = (String) data[1];
                         String heightText = (String) data[2];
-                        if (!name.isEmpty() && !widthText.isEmpty() && !heightText.isEmpty()) {
+                        if (name.matches("[A-Z]")&& !widthText.isEmpty() && !heightText.isEmpty()) {
                             try {
                                 double width = Double.parseDouble(widthText);
                                 double height = Double.parseDouble(heightText);
-                                papers.add(new Paper(name, (int) width, (int) height));
+                                papers.add(new Node(name.charAt(0), (int) width, (int) height));
                             } catch (NumberFormatException ex) {
                                 StaticMethods.showMassage("Please enter valid numbers for width and height.", frame,
                                         Type.WARNING);
                             }
                         } else {
-                            StaticMethods.showMassage("Please fill in all field.", frame, Type.WARNING);
+                            StaticMethods.showMassage("Please Enter Valid input", frame, Type.WARNING);
                         }
                     }
                 },
@@ -60,8 +62,8 @@ public class LeavesCheckController {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (papers.size() != 0) {
-                            boolean response = model.FormRectangles(papers);
-                            if (response) {
+                            Set<Node> response = model.FormRectangles(papers);
+                            if (response.size()!=0) {
                                 StaticMethods.showMassage("Can form Rectangle yeah :)", frame, Type.SUCCESS);
                                 return;
                             }

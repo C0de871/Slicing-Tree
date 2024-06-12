@@ -21,7 +21,7 @@ public class Node {
         this(value, 0, 0);
     }
 
-    Node(char value, Integer width, Integer height) {
+    public Node(char value, Integer width, Integer height) {
         this.value = value;
         this.height = height;
         this.width = width;
