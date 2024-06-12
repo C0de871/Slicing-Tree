@@ -1,8 +1,7 @@
 <component name="libraryTable">
   <library name="jna-5.5.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/jna-5.5.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/swing-jnafilechooser.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libraries/jna-5.5.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
