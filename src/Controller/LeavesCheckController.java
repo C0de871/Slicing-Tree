@@ -40,34 +40,36 @@ public class LeavesCheckController {
 
     // go to the previous rectangle:
     private void goLeft() {
-        curRecInd--;
-        if (curRecInd == -1) {
-            curRecInd = response.size() - 1;
+        if (curRecInd == 0) {
+            System.out.println("done");
+            return;
         }
+        curRecInd--;
         ArrayList<Node> oneRectangle = model.checkViewConvertToPaper(response.get(curRecInd));
         StaticMethods.addRectangles(oneRectangle, response.get(curRecInd), leavesCheckView);
-        int newX= (1500/2)-(response.get(curRecInd).getWidth()/2)-170;
-        int newY= (800/2)-(response.get(curRecInd).getHeight()/2);
-        leavesCheckView.setBoundsGoLeft(newX,newY);
-        newX = (1500/2)+(response.get(curRecInd).getWidth()/2)+100;
-        newY= (800/2)-(response.get(curRecInd).getHeight()/2);
-        leavesCheckView.setBoundsGoRight(newX,newY);
+        int newX = (1500 / 2) - (response.get(curRecInd).getWidth() / 2) - 170;
+        int newY = (800 / 2) - 35;
+        leavesCheckView.setBoundsGoLeft(newX, newY);
+        newX = (1500 / 2) + (response.get(curRecInd).getWidth() / 2) + 100;
+        newY = (800 / 2) - 35;
+        leavesCheckView.setBoundsGoRight(newX, newY);
     }
 
     // go to the next rectangle:
     private void goRight() {
-        curRecInd++;
-        if (curRecInd == response.size()) {
-            curRecInd = 0;
+        if (curRecInd == response.size() - 1) {
+            System.out.println("done");
+            return;
         }
+        curRecInd++;
         ArrayList<Node> oneRectangle = model.checkViewConvertToPaper(response.get(curRecInd));
         StaticMethods.addRectangles(oneRectangle, response.get(curRecInd), leavesCheckView);
-        int newX= (1500/2)-(response.get(curRecInd).getWidth()/2)-170;
-        int newY= (800/2)-(response.get(curRecInd).getHeight()/2);
-        leavesCheckView.setBoundsGoLeft(newX,newY);
-        newX = (1500/2)+(response.get(curRecInd).getWidth()/2)+100;
-        newY= (800/2)-(response.get(curRecInd).getHeight()/2);
-        leavesCheckView.setBoundsGoRight(newX,newY);
+        int newX = (1500 / 2) - (response.get(curRecInd).getWidth() / 2) - 170;
+        int newY = (800 / 2) - 35;
+        leavesCheckView.setBoundsGoLeft(newX, newY);
+        newX = (1500 / 2) + (response.get(curRecInd).getWidth() / 2) + 100;
+        newY = (800 / 2) - 35;
+        leavesCheckView.setBoundsGoRight(newX, newY);
     }
 
     // add nodes:
@@ -103,7 +105,7 @@ public class LeavesCheckController {
                             if (response.size() != 0) {
                                 StaticMethods.showMassage("Can form Rectangle yeah :)", frame, Type.SUCCESS);
                                 leavesCheckView.setGoButtonsVisiblity(true);
-                                curRecInd=-1;
+                                curRecInd = -1;
                                 goRight();
                                 return;
                             }
