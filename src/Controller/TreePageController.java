@@ -63,7 +63,7 @@ public class TreePageController {
 
     // convert to paper and String:
     private void treeToRectangle() {
-        StaticMethods.resetPanel(rectangleView);
+        StaticMethods.resetPanelButtons(rectangleView);
         if (TreeView.textRoot.getText().equals("null")) {
             StaticMethods.showMassage("There is no Root yet", frame, Type.INFO);
             return;
@@ -75,14 +75,14 @@ public class TreePageController {
             return;
         }
         model.setPath(filePath);
-        ArrayList<Node> response = model.convertToPaper();
+        ArrayList<Node> response = model.convertToPaper(model.getRoot());
         if (response == null) {
             StaticMethods.showMassage("The tree isn't fully grown yet ", frame, Type.INFO);
         } else if (response.isEmpty()) {
             StaticMethods.showMassage("Can't form rectangle", frame, Type.WARNING);
         } else {
             StaticMethods.showMassage("Successfuly convert the tree to rectangle", frame, Type.SUCCESS);
-            rectangleView.addRectangles(response,model.getRoot());
+            StaticMethods.addRectangles(response,model.getRoot(),rectangleView);
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Rectangle");
         }
 
@@ -102,7 +102,7 @@ public class TreePageController {
 
     // reset the panel:
     private void reset() {
-        StaticMethods.resetPanel(treeView);
+        StaticMethods.resetPanelButtons(treeView);
         TreeView.resetRoot();
         treeView.add(TreeView.textRoot);
     }

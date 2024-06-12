@@ -39,9 +39,9 @@ public class RectanglePageController {
 
     private void rotate() {
         model.rotateRecangel();
-        ArrayList<Node> paper = model.convertToPaper();
+        ArrayList<Node> paper = model.convertToPaper(model.getRoot());
         this.reset();
-        rectangleView.addRectangles(paper,model.getRoot());
+        StaticMethods.addRectangles(paper,model.getRoot(),rectangleView);
     }
 
     private void rectangleToText() {
@@ -62,7 +62,7 @@ public class RectanglePageController {
         StaticMethods.showMassage("Tree planted succefully :)", frame, Type.SUCCESS);
         model.setRoot(response);
         model.calcMaxLevel(1, response);
-        StaticMethods.resetPanel(treeView);
+        StaticMethods.resetPanelButtons(treeView);
         TreeView.resetRoot();
         treeView.add(TreeView.textRoot);
         TreeView.textRoot.setBranchValue((int) (Math.pow(2, Math.max(0, model.getMaxLevel() - 3)) * 50));
@@ -78,6 +78,6 @@ public class RectanglePageController {
 
     // reset the panel:
     private void reset() {
-        StaticMethods.resetPanel(rectangleView);
+        StaticMethods.resetPanelButtons(rectangleView);
     }
 }

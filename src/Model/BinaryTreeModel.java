@@ -42,10 +42,15 @@ public class BinaryTreeModel {
 
     }
 
-    public Set<Node> FormRectangles(List<Node> papers) {
+    public ArrayList<Node> FormRectangles(List<Node> papers) {
         RectanglePacker R = new RectanglePacker();
         R.formingRectangles(papers);
-        return R.getUniqueTrees();
+        Set<Node> temp = R.getUniqueTrees();
+        ArrayList<Node> roots=new ArrayList<>();
+        for (Node ro : temp) {
+            roots.add(ro);
+        }
+        return roots;
     }
 
     public void inorderRec(Node node, StringBuilder result, boolean isRoot) {
@@ -172,19 +177,33 @@ public class BinaryTreeModel {
      * }
      */
 
-    public ArrayList<Node> convertToPaper() {
+    public ArrayList<Node> convertToPaper(Node thisRoot) {
         ArrayList<Node> pieces = new ArrayList<>();
-        if (!isComplete(this.root))
+        if (!isComplete(thisRoot))
             return null;
         StringBuilder result = new StringBuilder();
-        inorderRec(this.root, result, true);
+        inorderRec(thisRoot, result, true);
         RectangleOperations R = new RectangleOperations();
         if (R.canFormRectangle(result.toString())) {
-            convertToPaper(root, pieces);
+            convertToPaper(thisRoot, pieces);
         }
-        char[][] rec = R.drawing(getRoot());
+        char[][] rec = R.drawing(thisRoot);
         FileOperations F = new FileOperations();
         F.print2DArrayToFile(rec, path);
+        return pieces;
+    }
+
+    //check view convertToPaper method only:
+    public ArrayList<Node> checkViewConvertToPaper(Node thisRoot) {
+        ArrayList<Node> pieces = new ArrayList<>();
+        if (!isComplete(thisRoot))
+            return null;
+        StringBuilder result = new StringBuilder();
+        inorderRec(thisRoot, result, true);
+        RectangleOperations R = new RectangleOperations();
+        if (R.canFormRectangle(result.toString())) {
+            convertToPaper(thisRoot, pieces);
+        }
         return pieces;
     }
 
