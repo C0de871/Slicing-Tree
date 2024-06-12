@@ -3,6 +3,7 @@ package Model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 public class BinaryTreeModel {
@@ -41,9 +42,10 @@ public class BinaryTreeModel {
 
     }
 
-    public boolean CanFormRec(List<Paper> papers) {
+    public Set<Node> FormRectangles(List<Node> papers) {
         RectanglePacker R = new RectanglePacker();
-        return R.canFormRectangle(papers);
+        R.formingRectangles(papers);
+        return R.getUniqueTrees();
     }
 
     public void inorderRec(Node node, StringBuilder result, boolean isRoot) {
@@ -147,7 +149,6 @@ public class BinaryTreeModel {
             node.setLeft(tempNode);
         }
     }
-
     // function to Rotate the rectangle
     /*
      * public char[][] transposeMatrix(char[][] matrix) {
