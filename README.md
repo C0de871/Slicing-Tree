@@ -11,7 +11,7 @@ git clone https://github.com/C0de871/Slicing-Tree.git
 or just download the zip folder and extract it
 
 ## To run
-Just run the jar file which exists in folder named "executable".
+Just run the .exe file which exists in folder named "executable".
 Or run the source code using your IDE 😊😊.
 
 ## Note
